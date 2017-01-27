@@ -25,10 +25,11 @@ RUN apt-get update \
 		&& docker-php-ext-install mcrypt \
 		&& docker-php-ext-install mbstring
 
-RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/2.2.7.tar.gz \
-    && tar xfz /tmp/redis.tar.gz \
-    && rm -r /tmp/redis.tar.gz \
-    && mv phpredis-2.2.7 /usr/src/php/ext/redis \
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/3.1.0.tar.gz \
+    && tar -xzvf /tmp/redis.tar.gz -C /tmp \
+    && mkdir -p /usr/src/php/ext \
+    && mv /tmp/phpredis-3.1.0 /usr/src/php/ext/redis \
+    && rm -rf /tmp/redis.tar.gz \
     && docker-php-ext-install redis
 
 RUN curl -L -o /tmp/memcached.tar.gz http://pecl.php.net/get/memcached-2.2.0.tgz \
@@ -36,6 +37,9 @@ RUN curl -L -o /tmp/memcached.tar.gz http://pecl.php.net/get/memcached-2.2.0.tgz
     && mv memcached-2.2.0 /usr/src/php/ext/memcached \
     && rm /tmp/memcached.tar.gz \
     && docker-php-ext-install memcached
+
+COPY 000-default.conf /etc/apache2/sites-enabled
+COPY logging.conf /etc/apache2/conf-enabled
 
 VOLUME /var/www/html
 
