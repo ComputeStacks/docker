@@ -1,6 +1,5 @@
 FROM php:7.1-apache
-
-MAINTAINER ComputeStacks
+MAINTAINER ComputeStacks <support@computestacks.com>
 
 RUN a2enmod rewrite
 

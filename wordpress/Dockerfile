@@ -1,6 +1,6 @@
 FROM wordpress:4-php7.1-apache
 
-MAINTAINER ComputeStacks
+MAINTAINER ComputeStacks <support@computestacks.com>
 
 RUN apt-get update \
     && apt-get install -y libmemcached-dev libxml2-dev vim nano

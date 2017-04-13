@@ -1,5 +1,5 @@
 FROM php:5.6-apache
-MAINTAINER ComputeStacks
+MAINTAINER ComputeStacks <support@computestacks.com>
 
 # Hash can be found here: https://www.drupal.org/drupal-${DRUPAL_VERSION}-release-notes
 ENV DRUPAL_VERSION=7.53
