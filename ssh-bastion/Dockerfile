@@ -13,6 +13,10 @@ RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /et
     rm -f /etc/ssh/ssh_host_*key*
 
 
+# Configure SSH Startup Script
+COPY on_login.sh /usr/bin/on_login
+RUN chmod 1750 /usr/bin/on_login
+
 # Install PHP Composer
 RUN wget https://getcomposer.org/composer.phar -O composer \
     && mv composer /usr/bin/composer \
