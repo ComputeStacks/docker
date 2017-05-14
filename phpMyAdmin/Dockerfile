@@ -12,7 +12,7 @@ RUN docker-php-ext-install mysqli \
 		&& docker-php-ext-install mcrypt \
 		&& docker-php-ext-install mbstring
 
-RUN wget -O /usr/src/phpmyadmin.zip https://files.phpmyadmin.net/phpMyAdmin/4.6.6/phpMyAdmin-4.6.6-all-languages.zip
+RUN wget -O /usr/src/phpmyadmin.zip https://files.phpmyadmin.net/phpMyAdmin/4.7.0/phpMyAdmin-4.7.0-all-languages.zip
 
 RUN rm -rf /var/www/html
 
