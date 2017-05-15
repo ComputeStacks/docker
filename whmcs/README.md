@@ -6,7 +6,13 @@ Download your WHMCS copy here: [download.whmcs.com](https://download.whmcs.com/)
 
 WHMCS currently requires MySQL 5.6; v5.7 is not supported.
 
-Rename `configuration.php.new` to `configuration.php`.
+**Rename:**
+  - `configuration.php.new` to `configuration.php`
+  - `htaccess.txt` to `.htaccess`
+
+**TimeZone:**
+Add the following line to your `.htaccess` file: `php_value date.timezone 'Region/Zone'`
+  - Available TimeZones: [http://php.net/manual/en/timezones.php](http://php.net/manual/en/timezones.php)
 
 Example:
 

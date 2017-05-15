@@ -1,0 +1,1 @@
+*/5 * * * * /usr/local/bin/php -q /var/www/html/whmcs/crons/cron.php
