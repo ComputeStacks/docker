@@ -1,1 +1,6 @@
-*/5 * * * * /usr/local/bin/php -q /var/www/html/whmcs/crons/cron.php
+# /etc/crontab: system-wide crontab
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+*/5 * * * * php -q /var/www/html/whmcs/crons/cron.php

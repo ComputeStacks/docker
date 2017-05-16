@@ -16,6 +16,9 @@ RUN apt-get update \
        libc-client-dev \
        libkrb5-dev \
        cron \
+       supervisor \
+       vim \
+       less \
 		&& rm -rf /var/lib/apt/lists/* \
 		&& docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -39,8 +42,12 @@ COPY 00-ioncube.ini /usr/local/etc/php/conf.d
 RUN chown root:staff /usr/local/lib/php/extensions/no-debug-non-zts-20151012/ioncube_loader_lin_7.0.so \
     && chmod +x /usr/local/lib/php/extensions/no-debug-non-zts-20151012/ioncube_loader_lin_7.0.so
 
-COPY whmcs-cron /etc/cron.d/whmcs-cron
-RUN chmod +x /etc/cron.d/whmcs-cron
+COPY whmcs-cron /etc/crontab
+RUN crontab /etc/crontab
+
+RUN echo "ServerName whmcs" >> /etc/apache2/apache2.conf
+
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 VOLUME ["/var/www/html"]
-CMD ["apache2-foreground"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
