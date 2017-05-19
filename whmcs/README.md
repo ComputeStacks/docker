@@ -10,6 +10,17 @@ WHMCS currently requires MySQL 5.6; v5.7 is not supported.
   - `configuration.php.new` to `configuration.php`
   - `htaccess.txt` to `.htaccess`
 
+**HAProxy & SSL Termination:**
+
+WHMCS by default does not look at the `HTTP_X_FORWARDED_PROTO` header, so you need to add the following to your `configuration.php` file in order to fully enable SSL in your installation:
+
+```
+if ($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+  $_SERVER['HTTPS']='on';
+}
+```
+
+
 **TimeZone:**
 Add the following line to your `.htaccess` file: `php_value date.timezone 'Region/Zone'`
   - Available TimeZones: [http://php.net/manual/en/timezones.php](http://php.net/manual/en/timezones.php)
