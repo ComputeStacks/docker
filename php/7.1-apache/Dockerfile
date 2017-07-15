@@ -11,16 +11,44 @@ RUN set -ex; \
         		libjpeg62-turbo-dev \
         		mysql-client \
         		libxml2-dev \
+                libbz2-dev \
         		libmcrypt-dev \
         		libmemcached-dev \
         		libfreetype6-dev \
+                libcurl4-gnutls-dev \
+                libc-client-dev \
+                libkrb5-dev \
+                libxslt-dev \
             vim \
             nano \
     ; \
 		rm -rf /var/lib/apt/lists/*; \		
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd iconv mcrypt \
-		&& docker-php-ext-install pdo_mysql mysqli soap mbstring opcache
+    && docker-php-ext-install gd \
+    && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
+    && docker-php-ext-install imap \
+    && docker-php-ext-install -j$(nproc) \
+                                pdo_mysql \
+                                mysqli \
+                                soap \
+                                mbstring \
+                                opcache \
+                                bcmath \
+                                bz2 \
+                                curl \
+                                iconv \
+                                ftp \
+                                soap \
+                                json \
+                                posix \
+                                session \
+                                sockets \
+                                xml \
+                                xmlrpc \
+                                xmlwriter \
+                                xsl \
+                                zip \
+                                wddx
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php

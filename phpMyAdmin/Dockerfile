@@ -12,7 +12,7 @@ RUN docker-php-ext-install mysqli \
 		&& docker-php-ext-install mcrypt \
 		&& docker-php-ext-install mbstring
 
-RUN wget -O /usr/src/phpmyadmin.zip https://files.phpmyadmin.net/phpMyAdmin/4.7.0/phpMyAdmin-4.7.0-all-languages.zip
+RUN wget -O /usr/src/phpmyadmin.zip https://files.phpmyadmin.net/phpMyAdmin/4.7.2/phpMyAdmin-4.7.2-all-languages.zip
 
 RUN rm -rf /var/www/html
 
@@ -28,6 +28,7 @@ RUN rm /etc/apache2/sites-enabled/000-default.conf
 
 COPY 000-default.conf /etc/apache2/sites-enabled
 COPY logging.conf /etc/apache2/conf-enabled
+COPY pma.ini /usr/local/etc/php/conf.d
 
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
