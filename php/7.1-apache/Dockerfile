@@ -5,28 +5,35 @@ RUN set -ex; \
     \
     apt-get update; \
     apt-get install -y \
-        		zip \
-        		unzip \
-        		libpng12-dev \
-        		libjpeg62-turbo-dev \
-        		mysql-client \
-        		libxml2-dev \
-                libbz2-dev \
-        		libmcrypt-dev \
-        		libmemcached-dev \
-        		libfreetype6-dev \
-                libcurl4-gnutls-dev \
-                libc-client-dev \
-                libkrb5-dev \
-                libxslt-dev \
+            zip \
+            unzip \
+            libpng12-dev \
+            libjpeg62-turbo-dev \
+            mysql-client \
+            libxml2-dev \
+            libbz2-dev \
+            libmcrypt-dev \
+            libmemcached-dev \
+            libfreetype6-dev \
+            libcurl4-gnutls-dev \
+            libc-client-dev \
+            libkrb5-dev \
+            libxslt-dev \
             vim \
             nano \
+            zlib1g-dev \
+            libicu-dev \
+            g++ \
+            wget \
     ; \
-		rm -rf /var/lib/apt/lists/*; \		
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    rm -rf /var/lib/apt/lists/*;
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
     && docker-php-ext-install -j$(nproc) \
                                 pdo_mysql \
                                 mysqli \
@@ -48,7 +55,8 @@ RUN set -ex; \
                                 xmlwriter \
                                 xsl \
                                 zip \
-                                wddx
+                                wddx \
+                                mcrypt
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -63,10 +71,10 @@ RUN { \
 
 RUN a2enmod rewrite expires
 
-RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/3.1.1.tar.gz \
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/3.1.3.tar.gz \
     && tar -xzvf /tmp/redis.tar.gz -C /tmp \
     && mkdir -p /usr/src/php/ext \
-    && mv /tmp/phpredis-3.1.1 /usr/src/php/ext/redis \
+    && mv /tmp/phpredis-3.1.3 /usr/src/php/ext/redis \
     && rm -rf /tmp/redis.tar.gz \
     && docker-php-ext-install redis
 
