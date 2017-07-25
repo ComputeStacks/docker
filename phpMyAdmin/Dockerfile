@@ -6,12 +6,12 @@ RUN wget -O /usr/src/phpmyadmin.zip https://files.phpmyadmin.net/phpMyAdmin/4.7.
 
 RUN cd /usr/src \
 		&& unzip phpmyadmin.zip \
-		&& mv phpMyAdmin*/* /var/www/html
-
-RUN chown -R www-data:www-data /var/www/html \
-		&& rm -rf /var/www/html/setup
+		&& mv phpMyAdmin* pma
 
 COPY pma.ini /usr/local/etc/php/conf.d
 
 COPY docker-entrypoint.sh /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["apache2-foreground"]

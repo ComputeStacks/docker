@@ -86,10 +86,16 @@ RUN curl -L -o /tmp/memcached.tar.gz http://pecl.php.net/get/memcached-3.0.3.tgz
 
 COPY 000-default.conf /etc/apache2/sites-enabled
 COPY logging.conf /etc/apache2/conf-enabled
+COPY sample /usr/src/sample
+COPY docker-entrypoint.sh /entrypoint.sh
+
+RUN rm /var/www/html/package.xml
 
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data
 
 VOLUME /var/www/html
+
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["apache2-foreground"]

@@ -51,11 +51,17 @@ RUN curl -L -o /tmp/memcached.tar.gz http://pecl.php.net/get/memcached-2.2.0.tgz
     && docker-php-ext-install memcached
 
 COPY 000-default.conf /etc/apache2/sites-enabled
+COPY sample /usr/src/sample
 COPY logging.conf /etc/apache2/conf-enabled
+COPY docker-entrypoint.sh /entrypoint.sh
+
+RUN rm /var/www/html/package.xml
 
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data
 
 VOLUME /var/www/html
+
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["apache2-foreground"]
