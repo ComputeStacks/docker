@@ -28,12 +28,36 @@ RUN set -ex; \
             wget \
     ; \
     rm -rf /var/lib/apt/lists/*;
-    
+
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
+    && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
+    && docker-php-ext-install imap \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt pdo_mysql mysqli soap mbstring intl
+    && docker-php-ext-install -j$(nproc) \
+                                pdo_mysql \
+                                mysqli \
+                                soap \
+                                mbstring \
+                                opcache \
+                                bcmath \
+                                bz2 \
+                                curl \
+                                iconv \
+                                ftp \
+                                soap \
+                                json \
+                                posix \
+                                session \
+                                sockets \
+                                xml \
+                                xmlrpc \
+                                xmlwriter \
+                                xsl \
+                                zip \
+                                wddx \
+                                mcrypt
 
 RUN a2enmod rewrite expires
 
