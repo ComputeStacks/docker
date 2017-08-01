@@ -95,5 +95,7 @@ RUN sed -i 's#DocumentRoot /var/www/html#DocumentRoot /var/www/html/magento#' /e
 COPY cache.xml /usr/src/magento/app/etc/mage-cache.xml
 COPY docker-entrypoint.sh /entrypoint.sh
 
+COPY mage.ini /usr/local/etc/php/conf.d
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]
