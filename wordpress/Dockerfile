@@ -94,5 +94,9 @@ RUN rm /etc/apache2/sites-enabled/000-default.conf
 COPY 000-default.conf /etc/apache2/sites-enabled
 COPY logging.conf /etc/apache2/conf-enabled
 COPY lb_fix.sh /root
+COPY docker-entrypoint.sh /entrypoint.sh
 
 RUN bash /root/lb_fix.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["apache2-foreground"]

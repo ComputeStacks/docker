@@ -25,13 +25,14 @@ file_env() {
 
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
   if ! [ -e index.php -a -e wp-includes/version.php ]; then
-    echo >&2 "WordPress not found in $PWD - copying now..."
+    echo >&2 "[CS] WordPress not found in $PWD - copying now..."
     if [ "$(ls -A)" ]; then
       echo >&2 "WARNING: $PWD is not empty - press Ctrl+C now if this is an error!"
       ( set -x; ls -A; sleep 10 )
     fi
     tar cf - --one-file-system -C /usr/src/wordpress . | tar xf -
-    echo >&2 "Complete! WordPress has been successfully copied to $PWD"
+    chown -R www-data:www-data /var/www/html
+    echo >&2 "[CS] Complete! WordPress has been successfully copied to $PWD"
     if [ ! -e .htaccess ]; then
       # NOTE: The "Indexes" option is disabled in the php:apache base image
       cat > .htaccess <<-'EOF'
@@ -215,4 +216,5 @@ EOPHP
     unset "$e"
   done
 fi
+
 exec "$@"
