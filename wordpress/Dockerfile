@@ -96,6 +96,8 @@ COPY logging.conf /etc/apache2/conf-enabled
 COPY lb_fix.sh /root
 COPY docker-entrypoint.sh /entrypoint.sh
 
+COPY cs_wp.ini /usr/local/etc/php/conf.d
+
 RUN bash /root/lb_fix.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
