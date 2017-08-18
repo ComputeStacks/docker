@@ -48,6 +48,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
         # END WordPress
 EOF
       chown www-data:www-data .htaccess
+      echo "define('FS_METHOD','direct');" >> /var/www/html/wp-config.php
     fi
   fi
 
@@ -145,8 +146,7 @@ EOPHP
     set_config 'DB_HOST' "$WORDPRESS_DB_HOST"
     set_config 'DB_USER' "$WORDPRESS_DB_USER"
     set_config 'DB_PASSWORD' "$WORDPRESS_DB_PASSWORD"
-    set_config 'DB_NAME' "$WORDPRESS_DB_NAME"
-    set_config 'FS_METHOD' 'direct'
+    set_config 'DB_NAME' "$WORDPRESS_DB_NAME"    
 
     for unique in "${uniqueEnvs[@]}"; do
       uniqVar="WORDPRESS_$unique"
