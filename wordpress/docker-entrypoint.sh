@@ -31,7 +31,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
       ( set -x; ls -A; sleep 10 )
     fi
     tar cf - --one-file-system -C /usr/src/wordpress . | tar xf -
-    chown -R www-data:www-data /var/www/html
+    chown -R www-data:www-data /var/www
     echo >&2 "[CS] Complete! WordPress has been successfully copied to $PWD"
     if [ ! -e .htaccess ]; then
       # NOTE: The "Indexes" option is disabled in the php:apache base image
@@ -146,6 +146,7 @@ EOPHP
     set_config 'DB_USER' "$WORDPRESS_DB_USER"
     set_config 'DB_PASSWORD' "$WORDPRESS_DB_PASSWORD"
     set_config 'DB_NAME' "$WORDPRESS_DB_NAME"
+    set_config 'FS_METHOD' 'direct'
 
     for unique in "${uniqueEnvs[@]}"; do
       uniqVar="WORDPRESS_$unique"
