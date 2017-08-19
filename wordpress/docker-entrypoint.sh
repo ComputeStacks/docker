@@ -30,7 +30,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
       echo >&2 "WARNING: $PWD is not empty - press Ctrl+C now if this is an error!"
       ( set -x; ls -A; sleep 10 )
     fi
-    tar cf - --one-file-system -C /usr/src/wordpress . | tar xf -
+    tar cf - --one-file-system -C /usr/src/wordpress . | tar xf -    
     chown -R www-data:www-data /var/www
     echo >&2 "[CS] Complete! WordPress has been successfully copied to $PWD"
     if [ ! -e .htaccess ]; then
@@ -47,8 +47,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
         </IfModule>
         # END WordPress
 EOF
-      chown www-data:www-data .htaccess
-      echo "define('FS_METHOD','direct');" >> /var/www/html/wp-config.php
+      chown www-data:www-data .htaccess      
     fi
   fi
 
@@ -117,7 +116,8 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
 }
 
 EOPHP
-      chown www-data:www-data wp-config.php
+      echo "define('FS_METHOD','direct');" >> /var/www/html/wp-config.php
+      chown www-data:www-data /var/www/html/wp-config.php
     fi
 
     # see http://stackoverflow.com/a/2705678/433558
@@ -189,7 +189,7 @@ $user = getenv('WORDPRESS_DB_USER');
 $pass = getenv('WORDPRESS_DB_PASSWORD');
 $dbName = getenv('WORDPRESS_DB_NAME');
 
-$maxTries = 10;
+$maxTries = 15;
 do {
   $mysql = new mysqli($host, $user, $pass, '', $port, $socket);
   if ($mysql->connect_error) {
@@ -198,7 +198,7 @@ do {
     if ($maxTries <= 0) {
       exit(1);
     }
-    sleep(3);
+    sleep(5);
   }
 } while ($mysql->connect_error);
 
