@@ -76,16 +76,16 @@ RUN { \
 
 RUN a2enmod rewrite expires
 
-RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/3.1.3.tar.gz \
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/3.1.6.tar.gz \
     && tar -xzvf /tmp/redis.tar.gz -C /tmp \
     && mkdir -p /usr/src/php/ext \
-    && mv /tmp/phpredis-3.1.3 /usr/src/php/ext/redis \
+    && mv /tmp/phpredis-3.1.6 /usr/src/php/ext/redis \
     && rm -rf /tmp/redis.tar.gz \
     && docker-php-ext-install redis
 
-RUN curl -L -o /tmp/memcached.tar.gz http://pecl.php.net/get/memcached-3.0.3.tgz \
+RUN curl -L -o /tmp/memcached.tar.gz http://pecl.php.net/get/memcached-3.0.4.tgz \
     && tar -xzvf /tmp/memcached.tar.gz \
-    && mv memcached-3.0.3 /usr/src/php/ext/memcached \
+    && mv memcached-3.0.4 /usr/src/php/ext/memcached \
     && rm /tmp/memcached.tar.gz \
     && docker-php-ext-install memcached
     

@@ -1,0 +1,13 @@
+syntax on
+set viminfo=""
+set autoindent
+set ts=2
+set shiftwidth=2
+set expandtab
+set number
+set showmatch
+set ignorecase
+set hlsearch
+set incsearch
+set vb
+set nofoldenable
