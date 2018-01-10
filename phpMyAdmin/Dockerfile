@@ -2,7 +2,7 @@ FROM cmptstks/php:7.1-apache
 
 MAINTAINER ComputeStacks <support@computestacks.com>
 
-RUN wget -O /usr/src/phpmyadmin.zip https://files.phpmyadmin.net/phpMyAdmin/4.7.3/phpMyAdmin-4.7.3-all-languages.zip
+RUN wget -O /usr/src/phpmyadmin.zip https://files.phpmyadmin.net/phpMyAdmin/4.7.7/phpMyAdmin-4.7.7-all-languages.zip
 
 RUN cd /usr/src \
 		&& unzip phpmyadmin.zip \
