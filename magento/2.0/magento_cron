@@ -1,0 +1,5 @@
+* * * * * bitnami flock -n ~/.cron.lock /opt/bitnami/php/bin/php /opt/bitnami/magento/htdocs/bin/magento cron:run
+
+* * * * * bitnami flock -n ~/.cron.lock /opt/bitnami/php/bin/php /opt/bitnami/magento/htdocs/update/cron.php
+
+* * * * * bitnami flock -n ~/.cron.lock /opt/bitnami/php/bin/php /opt/bitnami/magento/htdocs/bin/magento setup:cron:run
