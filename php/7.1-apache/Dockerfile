@@ -1,6 +1,9 @@
 FROM php:7.1-apache
 MAINTAINER ComputeStacks <support@computestacks.com>
 
+ARG php_redis=3.1.6
+ARG php_memcache=3.0.4
+
 RUN set -ex; \
     \
     apt-get update; \
@@ -71,23 +74,29 @@ RUN { \
 
 RUN a2enmod rewrite expires
 
-RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/3.1.3.tar.gz \
-    && tar -xzvf /tmp/redis.tar.gz -C /tmp \
-    && mkdir -p /usr/src/php/ext \
-    && mv /tmp/phpredis-3.1.3 /usr/src/php/ext/redis \
-    && rm -rf /tmp/redis.tar.gz \
-    && docker-php-ext-install redis
-
-RUN curl -L -o /tmp/memcached.tar.gz http://pecl.php.net/get/memcached-3.0.3.tgz \
-    && tar -xzvf /tmp/memcached.tar.gz \
-    && mv memcached-3.0.3 /usr/src/php/ext/memcached \
-    && rm /tmp/memcached.tar.gz \
-    && docker-php-ext-install memcached
-
 COPY 000-default.conf /etc/apache2/sites-enabled
 COPY logging.conf /etc/apache2/conf-enabled
 COPY sample /usr/src/sample
 COPY docker-entrypoint.sh /entrypoint.sh
+
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$php_redis.tar.gz \
+    && tar -xzvf /tmp/redis.tar.gz -C /tmp \
+    && mkdir -p /usr/src/php/ext \
+    && mv /tmp/phpredis-$php_redis /usr/src/php/ext/redis \
+    && rm -rf /tmp/redis.tar.gz \
+    && docker-php-ext-install redis
+
+COPY vendor/memcached-$php_memcache.tgz /tmp/memcached.tgz
+RUN tar -xzvf /tmp/memcached.tgz \
+    && mv memcached-$php_memcache /usr/src/php/ext/memcached \
+    && rm /tmp/memcached.tgz \
+    && docker-php-ext-install memcached
+
+COPY vendor/ioncube_loader_lin_7.1.so /usr/local/lib/php/extensions/no-debug-non-zts-20160303
+COPY vendor/00-ioncube.ini /usr/local/etc/php/conf.d
+
+RUN chown root:staff /usr/local/lib/php/extensions/no-debug-non-zts-20160303/ioncube_loader_lin_7.1.so \
+    && chmod +x /usr/local/lib/php/extensions/no-debug-non-zts-20160303/ioncube_loader_lin_7.1.so
 
 RUN rm /var/www/html/package.xml
 
