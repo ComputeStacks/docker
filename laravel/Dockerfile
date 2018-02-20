@@ -1,4 +1,4 @@
-FROM bitnami/minideb-extras:jessie-r13
+FROM bitnami/minideb-extras:jessie-r23
 
 MAINTAINER ComputeStacks <support@computestacks.com>
 
@@ -8,8 +8,8 @@ RUN install_packages libc6 zlib1g libxslt1.1 libtidy-0.99-0 libreadline6 libncur
 # Install MySQL client so we can automatically create the DB
 RUN apt-get update && apt-get install -y mysql-client
 
-RUN bitnami-pkg install node-6.10.1-0 --checksum 820e3444261ebf3ed1a087413e471bb6f4a23e1995605970598c9fde80303ef0
-RUN bitnami-pkg install php-7.1.3-0 --checksum 0b1270ac702523a9f2f448a71f953c5212db41e59a586b86c1b9422b28b6d5b8
+RUN bitnami-pkg install node-8.9.4-0 --checksum 53c69fdc07f54599a00c364e51d9abaf5784147e81fcff27eee45783b987196b
+RUN bitnami-pkg unpack php-7.1.14-0 --checksum b6b036115be30b4bc5f20d97b2dd84e68a59a753ee2d91379c1a94d48a271b43
 
 ENV PATH=/opt/bitnami/node/bin:/opt/bitnami/python/bin:$PATH
 ENV PATH=/opt/bitnami/php/sbin:/opt/bitnami/php/bin:/opt/bitnami/common/bin:~/.composer/vendor/bin:$PATH
@@ -17,15 +17,18 @@ ENV NODE_PATH=/opt/bitnami/node/lib/node_modules
 
 RUN npm install -g gulp
 
+RUN usermod -u 1001 bitnami \
+    && groupmod -g 1001 bitnami
+
 USER bitnami
 
-RUN mkdir /tmp/app && cd /tmp/app && composer create-project "laravel/laravel=5.4.16" /tmp/app --prefer-dist
+RUN mkdir /tmp/app && cd /tmp/app && composer create-project "laravel/laravel=5.6.0" /tmp/app --prefer-dist
 
 RUN sudo mkdir /app \
     && sudo chown bitnami:bitnami /app
 
 ENV BITNAMI_APP_NAME=laravel
-ENV BITNAMI_IMAGE_VERSION=5.4.16-r0
+ENV BITNAMI_IMAGE_VERSION=5.6.0-r0
 
 COPY rootfs/ /
 

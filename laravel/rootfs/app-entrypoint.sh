@@ -2,7 +2,6 @@
 . /opt/bitnami/base/functions
 
 print_welcome_page
-check_for_updates &
 
 INIT_SEM=/tmp/initialized.sem
 PACKAGE_FILE=/app/composer.json
@@ -47,7 +46,8 @@ setup_db() {
   fi
 }
 
-if [ "${1}" == "php" -a "$2" == "artisan" -a "$3" == "serve" ]; then
+if [ "${1}" == "php" -a "$2" == "artisan" -a "$3" == "serve" ]; then  
+
   if ! app_present; then
     log "Creating laravel application"
     sudo cp -r /tmp/app/* /app/
