@@ -1,14 +1,11 @@
 Protocol 2
 HostKey /etc/ssh/ssh_host_ed25519_key
 HostKey /etc/ssh/ssh_host_rsa_key
-ChallengeResponseAuthentication no
 UseDNS no
-UsePAM yes
 PermitRootLogin no
-Subsystem sftp /usr/lib/openssh/sftp-server
+Subsystem sftp internal-sftp
 AcceptEnv LANG LC_*
 PrintMotd yes
 Banner /etc/motd
-X11Forwarding yes
+X11Forwarding no
 AllowTcpForwarding no
-ForceCommand /bin/bash

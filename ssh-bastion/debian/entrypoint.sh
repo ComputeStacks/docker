@@ -40,7 +40,7 @@ function createUser() {
 
     skipIndex=0
     chpasswdOptions=""
-    useraddOptions="--no-user-group"
+    useraddOptions="--no-user-group --shell /bin/bash"
 
     user="${args[0]}"; validateArg "username" "$user" "$reUser" || return 1
     pass="${args[1]}"; validateArg "password" "$pass" "$rePass" || return 1
@@ -88,7 +88,9 @@ function createUser() {
 
     # Add SSH keys to authorized_keys with valid permissions
     if [ -d /home/$user/.ssh/keys ]; then
-        cat /home/$user/.ssh/keys/* >> /home/$user/.ssh/authorized_keys
+        for publickey in /home/$user/.ssh/keys/*; do
+            cat $publickey >> /home/$user/.ssh/authorized_keys
+        done
         chown $uid /home/$user/.ssh/authorized_keys
         chmod 600 /home/$user/.ssh/authorized_keys
     fi

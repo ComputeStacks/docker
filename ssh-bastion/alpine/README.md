@@ -1,5 +1,7 @@
 Based on: https://github.com/atmoz/sftp
 
+(depcrecated in favor of debian image.)
+
 `docker pull cmptstks/ssh`
 
 
