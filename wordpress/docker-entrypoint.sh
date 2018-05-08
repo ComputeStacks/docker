@@ -24,33 +24,54 @@ file_env() {
 }
 
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
+  if [ "$(id -u)" = '0' ]; then
+    case "$1" in
+      apache2*)
+        user="${APACHE_RUN_USER:-www-data}"
+        group="${APACHE_RUN_GROUP:-www-data}"
+        ;;
+      *) # php-fpm
+        user='www-data'
+        group='www-data'
+        ;;
+    esac
+  else
+    user="$(id -u)"
+    group="$(id -g)"
+  fi
+
   if ! [ -e index.php -a -e wp-includes/version.php ]; then
-    echo >&2 "[CS] WordPress not found in $PWD - copying now..."
+    echo >&2 "WordPress not found in $PWD - copying now..."
     if [ "$(ls -A)" ]; then
       echo >&2 "WARNING: $PWD is not empty - press Ctrl+C now if this is an error!"
       ( set -x; ls -A; sleep 10 )
     fi
-    tar cf - --one-file-system -C /usr/src/wordpress . | tar xf -    
-    chown -R www-data:www-data /var/www
-    echo >&2 "[CS] Complete! WordPress has been successfully copied to $PWD"
+    tar --create \
+      --file - \
+      --one-file-system \
+      --directory /usr/src/wordpress \
+      --owner "$user" --group "$group" \
+      . | tar --extract --file -
+    echo >&2 "Complete! WordPress has been successfully copied to $PWD"
     if [ ! -e .htaccess ]; then
       # NOTE: The "Indexes" option is disabled in the php:apache base image
       cat > .htaccess <<-'EOF'
-        # BEGIN WordPress
-        <IfModule mod_rewrite.c>
-        RewriteEngine On
-        RewriteBase /
-        RewriteRule ^index\.php$ - [L]
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteCond %{REQUEST_FILENAME} !-d
-        RewriteRule . /index.php [L]
-        </IfModule>
-        # END WordPress
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
 EOF
-      chown www-data:www-data .htaccess      
+      chown "$user:$group" .htaccess
     fi
   fi
 
+  chown -R www-data:www-data /var/www
   # TODO handle WordPress upgrades magically in the same way, but only if wp-includes/version.php's $wp_version is less than /usr/src/wordpress/wp-includes/version.php's $wp_version
 
   # allow any of these "Authentication Unique Keys and Salts." to be specified via
@@ -116,8 +137,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
 }
 
 EOPHP
-      echo "define('FS_METHOD','direct');" >> /var/www/html/wp-config.php
-      chown www-data:www-data /var/www/html/wp-config.php
+      chown "$user:$group" wp-config.php
     fi
 
     # see http://stackoverflow.com/a/2705678/433558
@@ -128,7 +148,11 @@ EOPHP
       echo "$@" | sed -e 's/[\/&]/\\&/g'
     }
     php_escape() {
-      php -r 'var_export(('$2') $argv[1]);' -- "$1"
+      local escaped="$(php -r 'var_export(('"$2"') $argv[1]);' -- "$1")"
+      if [ "$2" = 'string' ] && [ "${escaped:0:1}" = "'" ]; then
+        escaped="${escaped//$'\n'/"' + \"\\n\" + '"}"
+      fi
+      echo "$escaped"
     }
     set_config() {
       key="$1"
@@ -146,7 +170,7 @@ EOPHP
     set_config 'DB_HOST' "$WORDPRESS_DB_HOST"
     set_config 'DB_USER' "$WORDPRESS_DB_USER"
     set_config 'DB_PASSWORD' "$WORDPRESS_DB_PASSWORD"
-    set_config 'DB_NAME' "$WORDPRESS_DB_NAME"    
+    set_config 'DB_NAME' "$WORDPRESS_DB_NAME"
 
     for unique in "${uniqueEnvs[@]}"; do
       uniqVar="WORDPRESS_$unique"
@@ -189,7 +213,7 @@ $user = getenv('WORDPRESS_DB_USER');
 $pass = getenv('WORDPRESS_DB_PASSWORD');
 $dbName = getenv('WORDPRESS_DB_NAME');
 
-$maxTries = 15;
+$maxTries = 10;
 do {
   $mysql = new mysqli($host, $user, $pass, '', $port, $socket);
   if ($mysql->connect_error) {
@@ -198,7 +222,7 @@ do {
     if ($maxTries <= 0) {
       exit(1);
     }
-    sleep(5);
+    sleep(3);
   }
 } while ($mysql->connect_error);
 

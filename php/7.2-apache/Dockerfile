@@ -1,12 +1,8 @@
-FROM wordpress:4-php7.2-apache
-
+FROM php:7.2-apache
 MAINTAINER ComputeStacks <support@computestacks.com>
 
 ARG php_redis=4.0.2
 ARG php_memcache=3.0.4
-
-RUN usermod -u 1001 www-data \
-    && groupmod -g 1001 www-data
 
 RUN set -ex; \
     \
@@ -76,6 +72,11 @@ RUN { \
 
 RUN a2enmod rewrite expires
 
+COPY 000-default.conf /etc/apache2/sites-enabled
+COPY logging.conf /etc/apache2/conf-enabled
+COPY sample /usr/src/sample
+COPY docker-entrypoint.sh /usr/local/bin/
+
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$php_redis.tar.gz \
     && tar -xzvf /tmp/redis.tar.gz -C /tmp \
     && mkdir -p /usr/src/php/ext \
@@ -88,20 +89,20 @@ RUN tar -xzvf /tmp/memcached.tgz \
     && mv memcached-$php_memcache /usr/src/php/ext/memcached \
     && rm /tmp/memcached.tgz \
     && docker-php-ext-install memcached
-    
-RUN wget https://downloads.wordpress.org/plugin/wp-mail-smtp.zip -O /tmp/smtptemp.zip \
-    && cd /usr/src/wordpress/wp-content/plugins \
-    && unzip /tmp/smtptemp.zip \
-    && rm /tmp/smtptemp.zip \
-    && chown www-data:www-data -R /usr/src/wordpress/wp-content/plugins
 
-RUN rm /etc/apache2/sites-enabled/000-default.conf
+COPY vendor/ioncube_loader_lin_7.2.so /usr/local/lib/php/extensions/no-debug-non-zts-20170718
+COPY vendor/00-ioncube.ini /usr/local/etc/php/conf.d
 
-COPY 000-default.conf /etc/apache2/sites-enabled
-COPY logging.conf /etc/apache2/conf-enabled
-COPY lb_fix.sh /root
-COPY docker-entrypoint.sh /usr/local/bin/
+RUN chown root:staff /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ioncube_loader_lin_7.2.so \
+    && chmod +x /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ioncube_loader_lin_7.2.so
 
-COPY cs_wp.ini /usr/local/etc/php/conf.d
+RUN rm /var/www/html/package.xml
 
-RUN bash /root/lb_fix.sh
+RUN usermod -u 1001 www-data \
+    && groupmod -g 1001 www-data
+
+VOLUME /var/www/html
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["apache2-foreground"]
