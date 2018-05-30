@@ -43,8 +43,21 @@ RUN set -ex; \
             openssl \
             ca-certificates \
             openssh-server \
+            gnupg2 \
+            make \
+    ;
+
+COPY nodejs.sh /
+RUN bash /nodejs.sh
+
+RUN set -ex; \
+    \
+    apt-get update; \
+    apt-get install -y \
+            nodejs \
     ; \
     rm -rf /var/lib/apt/lists/*;
+
 
 RUN sed -i 's/GROUP=1000/GROUP=100/' /etc/default/useradd \
     && mkdir -p /var/run/sshd \
@@ -69,7 +82,6 @@ COPY motd /etc/motd
 
 COPY entrypoint.sh /entrypoint
 RUN chmod +x /entrypoint
-
 
 EXPOSE 22
 

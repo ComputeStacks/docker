@@ -101,7 +101,7 @@ RUN rm /var/www/html/package.xml
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data
 
-VOLUME /var/www/html
+WORKDIR /var/www/html
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
