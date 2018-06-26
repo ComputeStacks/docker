@@ -1,6 +1,2 @@
-# /etc/crontab: system-wide crontab
-
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-
-*/5 * * * * php -q /var/www/html/whmcs/crons/cron.php
+*/5 * * * * www-data /usr/local/bin/php -q /var/www/whmcs/crons/cron.php
+0 3 */2 * * www-data /usr/local/bin/php -q /var/www/whmcs/crons/domainsync.php
