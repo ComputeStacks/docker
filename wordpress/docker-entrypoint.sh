@@ -75,7 +75,6 @@ EOF
   fi
 
   chown www-data:www-data /var/www/html
-  
   # TODO handle WordPress upgrades magically in the same way, but only if wp-includes/version.php's $wp_version is less than /usr/src/wordpress/wp-includes/version.php's $wp_version
 
   # allow any of these "Authentication Unique Keys and Salts." to be specified via

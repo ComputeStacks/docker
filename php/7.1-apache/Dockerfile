@@ -28,6 +28,8 @@ RUN set -ex; \
             libicu-dev \
             g++ \
             wget \
+            imagemagick \
+            libmagickwand-dev \
     ; \
     rm -rf /var/lib/apt/lists/*;
 
@@ -37,6 +39,8 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install imap \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
+    && pecl install imagick-3.4.3 \
+    && docker-php-ext-enable imagick \
     && docker-php-ext-install -j$(nproc) \
                                 pdo_mysql \
                                 mysqli \

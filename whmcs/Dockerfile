@@ -1,4 +1,4 @@
-FROM cmptstks/php:7.1-apache
+FROM cmptstks/php:7.2-apache
 MAINTAINER ComputeStacks <support@computestacks.com>
 
 RUN apt-get update \
