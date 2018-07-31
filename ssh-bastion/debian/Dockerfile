@@ -30,6 +30,7 @@ RUN set -ex; \
             git \
             curl \
             mysql-client \
+            postgresql-client-9.6 \
             php \
             php-curl \
             php-json \

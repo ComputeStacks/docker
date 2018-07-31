@@ -7,5 +7,5 @@ Subsystem sftp internal-sftp
 AcceptEnv LANG LC_*
 PrintMotd yes
 Banner /etc/motd
-X11Forwarding no
-AllowTcpForwarding no
+X11Forwarding yes
+AllowTcpForwarding yes
