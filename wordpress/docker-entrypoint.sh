@@ -66,6 +66,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]
 </IfModule>
 # END WordPress
+SetEnvIf X-Forwarded-Proto "https" HTTPS=on
 EOF
       chown "$user:$group" .htaccess
     fi
