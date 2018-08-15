@@ -79,6 +79,12 @@ COPY sample /usr/src/sample
 COPY logging.conf /etc/apache2/conf-enabled
 COPY docker-entrypoint.sh /entrypoint.sh
 
+COPY vendor/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20131226
+COPY vendor/00-ioncube.ini /usr/local/etc/php/conf.d
+
+RUN chown root:staff /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ioncube_loader_lin_5.6.so \
+    && chmod +x /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ioncube_loader_lin_5.6.so
+
 RUN rm /var/www/html/package.xml
 
 RUN usermod -u 1001 www-data \
