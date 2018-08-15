@@ -8,7 +8,7 @@ RUN set -ex; \
     apt-get install -y \
             zip \
             unzip \
-            libpng12-dev \
+            libpng-dev \
             libjpeg62-turbo-dev \
             mysql-client \
             libxml2-dev \
@@ -83,8 +83,6 @@ RUN rm /var/www/html/package.xml
 
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data
-
-VOLUME /var/www/html
 
 ENTRYPOINT ["/entrypoint.sh"]
 
