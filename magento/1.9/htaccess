@@ -1,0 +1,49 @@
+SetEnvIf X-Forwarded-Proto "https" HTTPS=on
+
+DirectoryIndex index.php
+php_value memory_limit 386M
+php_value max_execution_time 18000
+php_flag magic_quotes_gpc off
+php_flag session.auto_start off
+php_flag suhosin.session.cryptua off
+php_flag zend.ze1_compatibility_mode Off
+
+<IfModule mod_security.c>
+  SecFilterEngine Off
+  SecFilterScanPOST Off
+</IfModule>
+
+Options +FollowSymLinks
+
+<IfModule mod_setenvif.c>
+  <IfModule mod_headers.c>
+    BrowserMatch \bMSIE\s8 ie8
+    Header set X-XSS-Protection: "1; mode=block" env=!ie8
+  </IfModule>
+</IfModule>
+
+FileETag none
+
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_METHOD} ^TRAC[EK]
+RewriteRule .* - [L,R=405]
+RewriteCond %{REQUEST_URI} !^/(media|skin|js)/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule .* index.php [L]
+
+AddDefaultCharset Off
+
+<IfModule mod_expires.c>
+  ExpiresDefault "access plus 1 year"
+</IfModule>
+
+<Files RELEASE_NOTES.txt>
+  Require all denied
+</Files>
+
+<Files cron.php>
+  Require all denied
+</Files>

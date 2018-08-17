@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:5.6-apache-stretch
 
 MAINTAINER ComputeStacks <support@computestacks.com>
 
@@ -26,6 +26,8 @@ RUN set -ex; \
             libicu-dev \
             g++ \
             wget \
+            imagemagick \
+            libmagickwand-dev \
     ; \
     rm -rf /var/lib/apt/lists/*;
 
@@ -35,6 +37,8 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install imap \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
+    && pecl install imagick-3.4.3 \
+    && docker-php-ext-enable imagick \
     && docker-php-ext-install -j$(nproc) \
                                 pdo_mysql \
                                 mysqli \
@@ -59,6 +63,15 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
                                 wddx \
                                 mcrypt
 
+RUN { \
+        echo 'opcache.memory_consumption=128'; \
+        echo 'opcache.interned_strings_buffer=8'; \
+        echo 'opcache.max_accelerated_files=4000'; \
+        echo 'opcache.revalidate_freq=2'; \
+        echo 'opcache.fast_shutdown=1'; \
+        echo 'opcache.enable_cli=1'; \
+    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
 RUN a2enmod rewrite expires
 
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/3.1.3.tar.gz \
@@ -81,6 +94,7 @@ COPY docker-entrypoint.sh /entrypoint.sh
 
 COPY vendor/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20131226
 COPY vendor/00-ioncube.ini /usr/local/etc/php/conf.d
+COPY vendor/cs.ini /usr/local/etc/php/conf.d
 
 RUN chown root:staff /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ioncube_loader_lin_5.6.so \
     && chmod +x /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ioncube_loader_lin_5.6.so
@@ -89,6 +103,8 @@ RUN rm /var/www/html/package.xml
 
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data
+
+WORKDIR /var/www/html
 
 ENTRYPOINT ["/entrypoint.sh"]
 

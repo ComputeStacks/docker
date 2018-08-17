@@ -1,2 +1,1 @@
 */5 * * * * www-data /usr/local/bin/php -q /var/www/whmcs/crons/cron.php
-0 3 */2 * * www-data /usr/local/bin/php -q /var/www/whmcs/crons/domainsync.php

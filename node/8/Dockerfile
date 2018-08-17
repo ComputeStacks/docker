@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:8-stretch
 
 MAINTAINER ComputeStacks <support@computestacks.com>
 

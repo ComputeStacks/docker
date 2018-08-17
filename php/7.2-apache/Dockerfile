@@ -96,6 +96,7 @@ RUN tar -xzvf /tmp/memcached.tgz \
 
 COPY vendor/ioncube_loader_lin_7.2.so /usr/local/lib/php/extensions/no-debug-non-zts-20170718
 COPY vendor/00-ioncube.ini /usr/local/etc/php/conf.d
+COPY vendor/cs.ini /usr/local/etc/php/conf.d
 
 RUN chown root:staff /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ioncube_loader_lin_7.2.so \
     && chmod +x /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ioncube_loader_lin_7.2.so

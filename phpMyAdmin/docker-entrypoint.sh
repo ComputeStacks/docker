@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 if ! [ -e index.php -a -e config.inc.php ]; then
   echo >&2 "phpMyAdmin not found in $PWD - copying now..."
@@ -13,11 +12,16 @@ if ! [ -e index.php -a -e config.inc.php ]; then
   rm -rf /var/www/html/setup
 fi
 
-if [ ! -f "/var/www/html/config.inc.php" ]; then
+if [ -f "/var/www/html/config.sample.inc.php" ]; then
   rm /var/www/html/config.sample.inc.php
-  wget -O /var/www/html/config.inc.php $BASE_URL/$API_URL?h=$HOSTNAME
-  chown www-data:www-data /var/www/html/config.inc.php
-  chmod 640 /var/www/html/config.inc.php
 fi
+
+if [ ! -f "/var/www/html/.htaccess" ]; then
+  echo "SetEnvIf X-Forwarded-Proto \"https\" HTTPS=on" > /var/www/html/.htaccess
+fi
+
+wget -O /var/www/html/config.inc.php $BASE_URL/$API_URL?h=$HOSTNAME
+chown www-data:www-data /var/www/html/config.inc.php
+chmod 640 /var/www/html/config.inc.php
 
 exec "$@"

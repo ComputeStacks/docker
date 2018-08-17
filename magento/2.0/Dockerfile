@@ -1,4 +1,4 @@
-FROM bitnami/magento:2.2.4
+FROM bitnami/magento:2.2.5
 
 RUN usermod -u 1001 bitnami \
     && groupmod -g 1001 bitnami

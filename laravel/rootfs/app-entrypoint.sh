@@ -21,6 +21,7 @@ dependencies_up_to_date() {
 }
 
 wait_for_db() {
+
   counter=0
   log "Connecting to mariadb at $DB_HOST"
   while ! curl --silent $DB_HOST:3306 >/dev/null; do
@@ -38,7 +39,7 @@ setup_db() {
   log "Configuring the database"
   sed -i "s/utf8mb4/utf8/g" /app/config/database.php
   DB_EXISTS=`/usr/bin/mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD --skip-column-names -e "SHOW DATABASES LIKE '$DB_DATABASE'"`
-  if [ ! "$DB_EXISTS" == '$DB_DATABASE' ]; then
+  if [ ! $DB_EXISTS == $DB_DATABASE ]; then
     /usr/bin/mysql -h $DB_HOST -u $DB_USERNAME -p$DB_PASSWORD --skip-column-names -e "CREATE DATABASE $DB_DATABASE;"
     php artisan migrate --force
   else
@@ -52,6 +53,13 @@ if [ "${1}" == "php" -a "$2" == "artisan" -a "$3" == "serve" ]; then
     log "Creating laravel application"
     sudo cp -r /tmp/app/* /app/
     sudo chown -R bitnami:bitnami /app
+  fi
+
+  if [ ! -f "/app/.env" ]; then
+    touch /app/.env
+    echo "APP_KEY=" > /app/.env
+    cd /app && php artisan key:generate
+    sudo chown -R bitnami:bitnami /app/.env
   fi
 
   if ! dependencies_up_to_date; then
