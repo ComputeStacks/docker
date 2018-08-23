@@ -74,7 +74,7 @@ RUN { \
         echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-RUN a2enmod rewrite expires
+RUN a2enmod rewrite expires deflate
 
 COPY 000-default.conf /etc/apache2/sites-enabled
 COPY logging.conf /etc/apache2/conf-enabled
