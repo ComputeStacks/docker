@@ -61,7 +61,8 @@ RUN cd /usr/src/sample \
     && bundle install \
     && chown -R www-data:www-data /var/www \
     && chown -R www-data:www-data /usr/src/sample \
-    && chmod +x /usr/local/bin/entrypoint
+    && chmod +x /usr/local/bin/entrypoint \
+    && chown -R www-data:www-data /usr/local/bundle
 
 USER www-data
 
