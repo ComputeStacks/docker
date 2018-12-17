@@ -1,8 +1,8 @@
-FROM wordpress:4-php7.2-apache
+FROM wordpress:5-php7.2-apache
 
 MAINTAINER ComputeStacks <support@computestacks.com>
 
-ARG php_redis=4.0.2
+ARG php_redis=4.2.0
 ARG php_memcache=3.0.4
 
 RUN usermod -u 1001 www-data \
@@ -73,7 +73,7 @@ RUN { \
         echo 'opcache.memory_consumption=128'; \
         echo 'opcache.interned_strings_buffer=8'; \
         echo 'opcache.max_accelerated_files=4000'; \
-        echo 'opcache.revalidate_freq=2'; \
+        echo 'opcache.revalidate_freq=30'; \
         echo 'opcache.fast_shutdown=1'; \
         echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini

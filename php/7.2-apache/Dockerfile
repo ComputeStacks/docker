@@ -1,7 +1,7 @@
 FROM php:7.2-apache
 MAINTAINER ComputeStacks <support@computestacks.com>
 
-ARG php_redis=4.0.2
+ARG php_redis=4.2.0
 ARG php_memcache=3.0.4
 
 RUN set -ex; \
