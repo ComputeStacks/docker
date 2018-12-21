@@ -7,14 +7,14 @@ if ! [ "$(ls -A)" ]; then
   echo >&2 "Complete! Sample files have been successfully copied to $PWD"
   if [ -f /usr/src/app/requirements.txt ]; then
     echo >&2 "Requirements file found, running pip.."
-    pip install -r requirements.txt
+    pip install --user -r requirements.txt
   fi
   chown -R www-data:www-data /usr/src/app
 else
   echo >&2 "Files exist in volume, will not move sample files."
   if [ -f /usr/src/app/requirements.txt ]; then
     echo >&2 "Requirements file found, running pip.."
-    pip install -r requirements.txt
+    pip install --user -r requirements.txt
   fi
 fi
 
