@@ -1,9 +1,4 @@
-# Python Docker Images
-
-## Supported Tags:
-
-  - `3`, `latest` _([3/Dockerfile](https://github.com/ComputeStacks/docker/tree/master/python/3))_
-  - `2` _([2/Dockerfile](https://github.com/ComputeStacks/docker/tree/master/python/2))_
+# Python 3 Docker Image
 
 ## Features:
 
@@ -33,5 +28,5 @@ Create the following files:
 ## How to use with docker
 
 ```
-docker run -d -v /path/to/local/app:/usr/src/app -p 80:80 cmptstks/python
+docker run -d -v /path/to/local/app:/usr/src/app -p 80:80 cmptstks/python:3
 ```
