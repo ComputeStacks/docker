@@ -19,15 +19,21 @@ else
 fi
 
 if [ -f /usr/src/app/crontab ]; then
-  ln -s /usr/src/app/crontab /etc/cron.d/myapp
+  if [ ! -L /etc/cron.d/myapp ]; then
+    ln -s /usr/src/app/crontab /etc/cron.d/myapp
+  fi
 fi
 
 if [ -f /usr/src/app/nginx.conf ]; then
-  ln -s /usr/src/app/nginx.conf /etc/nginx/conf.d/myapp.conf
+  if [ ! -L /etc/nginx/conf.d/myapp.conf ]; then
+    ln -s /usr/src/app/nginx.conf /etc/nginx/conf.d/myapp.conf
+  fi
 fi
 
 if [ -f /usr/src/app/gunicorn.conf ]; then
-  ln -s /usr/src/app/gunicorn.conf /etc/supervisor/conf.d/gunicorn.conf
+  if [ ! -L /etc/supervisor/conf.d/gunicorn.conf ]; then
+    ln -s /usr/src/app/gunicorn.conf /etc/supervisor/conf.d/gunicorn.conf
+  fi
 fi
 
 exec "$@"
