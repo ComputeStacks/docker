@@ -1,5 +1,6 @@
 FROM php:7.1-apache
-MAINTAINER ComputeStacks <support@computestacks.com>
+
+LABEL maintainer="support@computestacks.com"
 
 ARG php_redis=3.1.6
 ARG php_memcache=3.0.4

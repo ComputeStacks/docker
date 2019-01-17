@@ -1,6 +1,6 @@
 FROM php:5.6-apache-stretch
 
-MAINTAINER ComputeStacks <support@computestacks.com>
+LABEL maintainer="support@computestacks.com"
 
 RUN set -ex; \
     \
