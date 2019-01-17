@@ -59,6 +59,9 @@ RUN cd /usr/src/sample \
     && chown -R www-data:www-data /usr/src/app \
     && chmod +x /usr/local/bin/entrypoint \
     && mkdir -p /var/www/.cache \
+    && mkdir -p /var/www/.local/bin \
+    && echo 'export PATH="/var/www/.local/bin:$PATH"' >> /var/www/.bashrc \
+    && echo 'export PATH="/var/www/.local/bin:$PATH"' >> /etc/profile \
     && chown -R www-data:www-data /var/www
 
 

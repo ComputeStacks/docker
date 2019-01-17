@@ -2,4 +2,4 @@
 sync.sh
 .sync
 Icon?
-lib/dev/bin/*
+.vscode
