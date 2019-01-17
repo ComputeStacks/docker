@@ -13,8 +13,6 @@
 
 ## Prepare your application
 
-_Please see the `sample` directory for an example._
-
 Create the following files:
 
   - [requirements.txt](https://github.com/ComputeStacks/docker/tree/master/python/3/sample/requirements.txt)  -- _(optional)_ List any packages that should exist with `pip`.
