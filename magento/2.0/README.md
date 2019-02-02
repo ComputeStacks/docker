@@ -32,7 +32,7 @@ docker run -d --name mage \
            -e MYSQL_USER=root \
            -e MYSQL_PW=changeme \
            -e MAGE_EMAIL=user@example.com \
-           -e MAGE_PW=A1s79vko \
+           -e MAGE_PW=changeme \
            -e MAGE_USERNAME=admin \
            -e CURRENCY=USD \
            -e TIMEZONE=UTC \
