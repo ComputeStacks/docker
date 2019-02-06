@@ -61,7 +61,8 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
                                 xsl \
                                 zip \
                                 wddx \
-                                mcrypt
+                                mcrypt \
+                                mysql
 
 RUN { \
         echo 'opcache.memory_consumption=128'; \
