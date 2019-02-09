@@ -4,6 +4,7 @@ LABEL maintainer="support@computestacks.com"
 
 ARG php_redis=4.2.0
 ARG php_memcache=3.0.4
+ARG wp_cli=2.1.0
 
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data
@@ -11,6 +12,7 @@ RUN usermod -u 1001 www-data \
 RUN set -ex; \
     \
     apt-get update; \
+    apt-get -y upgrade; \
     apt-get install -y \
             zip \
             unzip \
@@ -80,26 +82,26 @@ RUN { \
 
 RUN a2enmod rewrite expires deflate
 
+COPY vendor/memcached-$php_memcache.tgz /tmp/memcached.tgz
+
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$php_redis.tar.gz \
     && tar -xzvf /tmp/redis.tar.gz -C /tmp \
     && mkdir -p /usr/src/php/ext \
     && mv /tmp/phpredis-$php_redis /usr/src/php/ext/redis \
     && rm -rf /tmp/redis.tar.gz \
-    && docker-php-ext-install redis
-
-COPY vendor/memcached-$php_memcache.tgz /tmp/memcached.tgz
-RUN tar -xzvf /tmp/memcached.tgz \
+    && docker-php-ext-install redis \
+    && tar -xzvf /tmp/memcached.tgz \
     && mv memcached-$php_memcache /usr/src/php/ext/memcached \
     && rm /tmp/memcached.tgz \
-    && docker-php-ext-install memcached
-    
-RUN wget https://downloads.wordpress.org/plugin/wp-mail-smtp.zip -O /tmp/smtptemp.zip \
+    && docker-php-ext-install memcached \
+    && wget https://downloads.wordpress.org/plugin/wp-mail-smtp.zip -O /tmp/smtptemp.zip \
     && cd /usr/src/wordpress/wp-content/plugins \
     && unzip /tmp/smtptemp.zip \
     && rm /tmp/smtptemp.zip \
-    && chown www-data:www-data -R /usr/src/wordpress/wp-content/plugins
-
-RUN rm /etc/apache2/sites-enabled/000-default.conf
+    && chown www-data:www-data -R /usr/src/wordpress/wp-content/plugins \
+    && rm /etc/apache2/sites-enabled/000-default.conf \
+    && wget https://github.com/wp-cli/wp-cli/releases/download/v${wp_cli}/wp-cli-${wp_cli}.phar -O /usr/local/bin/wp \
+    && chmod +x /usr/local/bin/wp
 
 COPY 000-default.conf /etc/apache2/sites-enabled
 COPY logging.conf /etc/apache2/conf-enabled
