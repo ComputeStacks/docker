@@ -9,7 +9,7 @@ RUN set -ex; \
     \
     export DEBIAN_FRONTEND=noninteractive; \
     apt-get update; \
-    apt-get -y upgrade; \    
+    apt-get -y upgrade; \
     apt-get -y install \
       re2c \
       xz-utils \
@@ -46,6 +46,7 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY sshd_config /etc/ssh/sshd_config
+COPY mage.ini /usr/local/etc/php/conf.d
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
     && a2ensite 000-default

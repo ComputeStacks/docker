@@ -145,17 +145,15 @@ EOF
   php bin/magento setup:install --base-url https://$DEFAULT_DOMAIN --db-host $MYSQL_HOST --db-name $MYSQL_DB_NAME --db-user $MYSQL_USER --db-password $MYSQL_PW --admin-firstname admin --admin-lastname admin --admin-email $MAGE_EMAIL --admin-user $MAGE_USERNAME --admin-password $MAGE_PW --language en_GB --currency $CURRENCY --timezone $TIMEZONE --use-rewrites 1 --backend-frontname admin
   chown -R www-data:www-data /var/www/html
   chmod 550 /var/www/html/magento/app/etc
-  echo >&2 "Magento has been successfully installed, finalizing system configuration..."
-  persist_cron
-  config_postfix
-  echo >&2 "Final configuration completed, booting application..."
-  
+  echo >&2 "Magento has been successfully installed, finalizing system configuration..."  
 else
   echo >&2 "Files exist in volume, skipping installation..."
   echo >&2 "Checking configuration..."
-  persist_cron
-  config_postfix
-  echo >&2 "App configured, booting application..."
 fi
+persist_cron
+config_postfix
+echo >&2 "App configured, booting application..."
+
+chown www-data:www-data -R /var/www/html/magento/generated
 
 exec "$@"
