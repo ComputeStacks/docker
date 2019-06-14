@@ -1,0 +1,10 @@
+#!/sbin/openrc-run
+
+name="busybox $SVCNAME"
+command="/usr/sbin/$SVCNAME"
+pidfile="/var/run/$SVCNAME.pid"
+command_args="-c /etc/crontabs"
+
+depend() {
+	need localmount
+}
