@@ -13,9 +13,43 @@ MySQL dumps will be rsynced to the remote directory and saved in the following f
 
 `YYYYMMDD/dbname_YYYY-MM-DD-HHMM.tar.gz`
 
-# Example:
+## Motivations
 
-_**NOTE:** Because this will connect using the private ip of the MySQL container, this will currently only work while running on ComputeStacks_
+**ComputeStacks already includes a backup tool that takes point-in-time snapshots of your entire volume, with specific plugins for MariaDB _(using Mariabackup)_ & MySQL _(using xtrabackup)_, why would I want this?**
+
+This tool is specifically designed for situations where you're trying to either a) create per-database backups (rather than entire database server), and/or b) want to create automated off-site backups with another provider.
+
+## Deploying on ComputeStacks:
+
+The image should already be installed and available in the order system, but if it's not, you can ask your provider for help getting that ready, or add it yourself as a custom image.
+
+You will first want to make sure that a MariaDB or MySQL container already exists in the project you will be adding this to, or ensure that you include a new database container as part of the order process.
+
+#### Adding & Setting Up the Container
+
+  * Choose the MySQL Backup Tool container from the order screen
+  * The next screen will ask for a series of settings:
+    * `API Key` & `API Secret`: These are your API Credentials to access your account. This is how we will pull the available MySQL containers to backup for your project. You can generate these credentials by navigating to your profile, and clicking the "Generate API Credentials".
+    * `Backup Server`: This is the IP Address of your backup server, where all backups will be uploaded.
+    * `Backup To Path`: This is the path on the backup server where the files will be placed. 
+    * `Backup Server User`: Username to connect to the backup server with
+    * `Backup Server Port`: The SSH port on the backup server
+    * `Backup Frequency`: The default is `daily`, but other possible options are: `15min`, `daily`, `monthly`. 
+  * After you've finalized the order process, your next step will be to add the _MySQL Backup Tool_'s SSH key to your backup server.
+    * Navigate to the Container Logs page:
+      * Navigate to your project -> Click on the _MySQL Backup Tool_ service -> In the upper right-hand corner, click the gear icon, and select _Container Logs_. 
+      * One of the first few things printed out will be the public SSH key. Add this to the `~/.ssh/authorized_keys` file for the backup server user.
+
+#### Next Steps
+
+Now that you've successfully configured this tool, you will begin to see backups arrive on your backup server, in the directory you specified, following the format `YYYYMMDD/dbname_YYYY-MM-DD-HHMM.tar.gz`. 
+
+Please note that this image does not do any pruning on the remote backup server, so you will need to monitor that outside of this program and ensure you don't fill up your hard drive. 
+  
+
+## Deploying with Docker:
+
+_**NOTE:** Because this will connect using the private IP of the MySQL container, this will currently only work while running on ComputeStacks_
 
 ```bash
 
@@ -34,8 +68,11 @@ docker run --rm -d \
 ```
 
 
-Sources:
+
+## Sources:
 
   * `crond.init` [Alpine Linux Repo](https://git.alpinelinux.org/aports/tree/main/busybox-initscripts/crond.initd)
   * [Alpine OpenRC Image](https://github.com/dockage/alpine/blob/master/3.9/openrc/Dockerfile)
-  * [Mysql Backup tool](https://github.com/ComputeStacks/mysql-dumper)
+  * [MySQL Backup tool](https://github.com/ComputeStacks/mysql-dumper)
+  
+  
