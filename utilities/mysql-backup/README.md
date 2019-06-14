@@ -29,7 +29,7 @@ docker run --rm -d \
   -e DEST_PATH="/path/to/my/backup/dir/on/ssh/server" \
   -e DEST_PORT="SSH Port (22)" \
   -e FREQ="One of: 15min, hourly, daily, monthly" \
-  cmptstks/mysql-backup  
+  cmptstks/mysql-backup-tool
 
 ```
 
