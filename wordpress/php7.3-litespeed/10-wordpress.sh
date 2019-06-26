@@ -38,6 +38,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROT
   $_SERVER['HTTPS'] = 'on';
 }
 define('FS_METHOD', 'direct'); 
+define('WP_MEMORY_LIMIT', '96M');
 PHP
   if [ ! -e .htaccess ]; then
     cat > .htaccess <<-'EOF'
