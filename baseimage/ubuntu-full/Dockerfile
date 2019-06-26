@@ -12,6 +12,7 @@ RUN set -ex; \
             apt-utils \
             build-essential \
             software-properties-common \
+            ca-certificates \
             wget \
             lsb-release \
     ; \
