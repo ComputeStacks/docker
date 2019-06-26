@@ -7,7 +7,7 @@ cd /var/www/html/wordpress
 wait_for_db() {
   counter=0
   echo >&2 "Connecting to database at $WORDPRESS_DB_HOST"
-  while ! curl --silent $WORDPRESS_DB_HOST:$WORDPRESS_DB_PORT >/dev/null; do
+  while ! mysql -h $WORDPRESS_DB_HOST -u $WORDPRESS_DB_USER -p$WORDPRESS_DB_PASSWORD -e "USE mysql;" >/dev/null; do
     counter=$((counter+1))
     if [ $counter == 30 ]; then
       echo >&2 "Error: Couldn't connect to database."
@@ -56,7 +56,7 @@ EOF
     fi
 
   echo >&2 "Installing Wordpress..."
-  wp core install --url=$WORDPRESS_URL --title=$WORDPRESS_TITLE --admin_user=$WORDPRESS_USER --admin_password=$WORDPRESS_PASSWORD --admin_email=$WORDPRESS_EMAIL --skip-email --allow-root
+  wp core install --url=$WORDPRESS_URL --title="$WORDPRESS_TITLE" --admin_user=$WORDPRESS_USER --admin_password=$WORDPRESS_PASSWORD --admin_email="$WORDPRESS_EMAIL" --skip-email --allow-root
 
   echo >&2 "Installing litespeed cache..."
   wp plugin install litespeed-cache --activate --allow-root
