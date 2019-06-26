@@ -102,7 +102,9 @@ RUN cd /usr/local/lsws/fcgi-bin/ \
 COPY root/httpd_config.conf /usr/local/lsws/conf/httpd_config.conf
 
 RUN mv /usr/local/lsws /usr/src \
-    && chown -R lsadm:lsadm /usr/src/lsws/conf
+    && chown -R lsadm:lsadm /usr/src/lsws/conf \
+    && echo "max_input_vars = 3000;" >> /usr/src/lsws/lsphp73/etc/php/7.3/litespeed/php.ini \
+    && sed -i 's/memory_limit = 128M/memory_limit = 192M/g' /usr/src/lsws/lsphp73/etc/php/7.3/litespeed/php.ini
 
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data
