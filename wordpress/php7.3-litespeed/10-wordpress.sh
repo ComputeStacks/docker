@@ -60,7 +60,7 @@ EOF
   wp core install --url=$WORDPRESS_URL --title="$WORDPRESS_TITLE" --admin_user=$WORDPRESS_USER --admin_password=$WORDPRESS_PASSWORD --admin_email="$WORDPRESS_EMAIL" --skip-email --allow-root
 
   echo >&2 "Installing litespeed cache..."
-  wp plugin install litespeed-cache --activate --allow-root
+  wp plugin install litespeed-cache --allow-root
 
   echo >&2 "Installing SMTP plugin..."
   wp plugin install wp-mail-smtp --activate --allow-root
