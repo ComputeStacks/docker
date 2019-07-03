@@ -1,8 +1,5 @@
 #!/usr/bin/expect
-spawn wget -O /tmp/go-pear.phar http://pear.php.net/go-pear.phar
-expect eof
-
-spawn /usr/local/lsws/lsphp72/bin/lsphp /tmp/go-pear.phar
+spawn /usr/local/lsws/lsphp72/bin/php /tmp/go-pear.phar
 
 expect "1-12, 'all' or Enter to continue:"
 send "\r"

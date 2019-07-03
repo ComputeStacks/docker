@@ -12,6 +12,6 @@ docker run --rm -it \
   -e DB_NAME="whmcs" \
   -p 3000:80 \
   -p 7080:7080 \
-  cmptstks/whmcs:v762-php7.2 /sbin/my_init -- bash -l
+  cmptstks/whmcs:latest /sbin/my_init -- bash -l
 
 ```

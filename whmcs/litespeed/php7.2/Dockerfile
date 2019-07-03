@@ -15,11 +15,9 @@ RUN curl https://cdn.cmptstks.com/packages/whmcs/whmcs_v${WHMCS_VERSION}_full.zi
     && mv /usr/src/whmcs /usr/src/whmcs-public \
     && mkdir /usr/src/whmcs \
     && mv /usr/src/whmcs-public /usr/src/whmcs/ \
-    && mv /usr/src/whmcs/whmcs-public/crons /usr/src/whmcs/ \
     && mv /usr/src/whmcs/whmcs-public/configuration.php.new /usr/src/whmcs/whmcs-public/configuration.php \
+    && echo "#*/5 * * * * www-data /usr/local/lsws/lsphp72/bin/php -q /var/www/html/whmcs/whmcs-public/crons/cron.php" >> /usr/src/default/crontab \
     && mkdir /usr/src/whmcs/whmcs-updates \
-    && echo "*/5 * * * * flock -n /var/www/.cron-clean.lock /usr/local/lsws/lsphp72/bin/php -q /var/www/html/whmcs/crons/cron.php" >> /usr/src/default/crontab \
     && chmod +x /etc/my_init.d/05-whmcs.sh
 
 COPY vhconf.conf /usr/src/lsws/conf/vhosts/Default/
-

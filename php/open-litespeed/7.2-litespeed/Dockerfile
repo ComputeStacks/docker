@@ -62,7 +62,6 @@ RUN set -ex; \
       lsphp72-dev \
       lsphp72-imap \
       lsphp72-intl \
-      lsphp72-ioncube \
       lsphp72-json \
       lsphp72-memcached \
       lsphp72-mysql \
@@ -77,11 +76,11 @@ RUN set -ex; \
 COPY root/www /usr/src/default/
 COPY root/00-entrypoint.sh /etc/my_init.d/
 COPY root/50-litespeed.sh /etc/my_init.d/
-COPY root/mods-available /usr/local/lsws/lsphp72/etc/php/7.2/mods-available/
 COPY root/vhosts /usr/local/lsws/conf/vhosts/
 COPY root/pecl/install_pear.sh /root/
 COPY root/pecl/install_mcrypt.sh /root/
 COPY root/pecl/install_imagick.sh /root/
+COPY root/ioncube_loader_lin_7.2.so /usr/local/lsws/lsphp72/lib/php/20170718/
 
 RUN cd /usr/local/lsws/fcgi-bin/ \
     && rm lsphp \
@@ -89,6 +88,7 @@ RUN cd /usr/local/lsws/fcgi-bin/ \
     && cd /usr/local/lsws/lsphp72/bin \
     && chmod +x /etc/my_init.d/00-entrypoint.sh \
     && chmod +x /etc/my_init.d/50-litespeed.sh \
+    && wget -O /tmp/go-pear.phar http://pear.php.net/go-pear.phar \
     && chmod +x -R /root/install_*.sh \
     && /root/install_pear.sh \
     && /usr/local/lsws/lsphp72/bin/pecl channel-update pecl.php.net \    
@@ -96,6 +96,7 @@ RUN cd /usr/local/lsws/fcgi-bin/ \
     && echo "extension=mcrypt.so" >> /usr/local/lsws/lsphp72/etc/php/7.2/mods-available/50-mcrypt.ini \
     && /root/install_imagick.sh \
     && echo "extension=imagick.so" >> /usr/local/lsws/lsphp72/etc/php/7.2/mods-available/50-imagick.ini \
+    && echo "zend_extension=ioncube_loader_lin_7.2.so" >> /usr/local/lsws/lsphp72/etc/php/7.2/mods-available/ioncube.ini \
     && rm /root/install_*.sh \
     && rm /usr/local/lsws/conf/httpd_config.conf
 
