@@ -1,9 +1,9 @@
-FROM php:7.2-apache
+FROM php:7.3-apache
 
 LABEL maintainer="support@computestacks.com"
 
-ARG php_redis=4.2.0
-ARG php_memcache=3.0.4
+ARG php_redis=5.0.2
+ARG php_memcache=3.1.3
 
 RUN set -ex; \
     \
@@ -31,6 +31,7 @@ RUN set -ex; \
             wget \
             imagemagick \
             libmagickwand-dev \
+            libzip-dev \
     ; \
     rm -rf /var/lib/apt/lists/*;
 
@@ -40,7 +41,7 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install imap \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
-    && pecl install imagick-3.4.3 \
+    && pecl install imagick-3.4.4 \
     && docker-php-ext-enable imagick \
     && docker-php-ext-install -j$(nproc) \
                                 pdo_mysql \
@@ -96,12 +97,12 @@ RUN tar -xzvf /tmp/memcached.tgz \
     && rm /tmp/memcached.tgz \
     && docker-php-ext-install memcached
 
-COPY vendor/ioncube_loader_lin_7.2.so /usr/local/lib/php/extensions/no-debug-non-zts-20170718
+COPY vendor/ioncube_loader_lin_7.3.so /usr/local/lib/php/extensions/no-debug-non-zts-20180731
 COPY vendor/00-ioncube.ini /usr/local/etc/php/conf.d
 COPY vendor/cs.ini /usr/local/etc/php/conf.d
 
-RUN chown root:staff /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ioncube_loader_lin_7.2.so \
-    && chmod +x /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ioncube_loader_lin_7.2.so
+RUN chown root:staff /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ioncube_loader_lin_7.3.so \
+    && chmod +x /usr/local/lib/php/extensions/no-debug-non-zts-20180731/ioncube_loader_lin_7.3.so
 
 RUN rm /var/www/html/package.xml
 
