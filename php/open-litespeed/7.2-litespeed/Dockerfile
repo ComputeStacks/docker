@@ -104,8 +104,10 @@ COPY root/httpd_config.conf /usr/local/lsws/conf/httpd_config.conf
 
 RUN mv /usr/local/lsws /usr/src \
     && chown -R lsadm:lsadm /usr/src/lsws/conf \
-    && echo "max_input_vars = 3000;" >> /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini \
-    && sed -i 's/memory_limit = 128M/memory_limit = 192M/g' /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini
+    && echo "max_input_vars = 3000" >> /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini \
+    && sed -i 's/memory_limit = .*/memory_limit = 192M/g' /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini \
+    && sed -i 's/upload_max_filesize = .*/upload_max_filesize = 250M/g' /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini \
+    && echo "post_max_size = 250M" >> /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini
 
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data
