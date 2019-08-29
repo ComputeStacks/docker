@@ -1,0 +1,10 @@
+/var/www/html/magento/var/log/*.log {
+  su www-data www-data
+  daily
+  size 25M
+  compress
+  rotate 4
+  create 664 www-data www-data
+  missingok
+  notifempty
+}

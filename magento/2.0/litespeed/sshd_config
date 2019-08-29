@@ -1,0 +1,24 @@
+LogLevel INFO
+Port 22
+PermitRootLogin no
+
+AuthorizedKeysFile .ssh/authorized_keys
+PasswordAuthentication yes
+PermitEmptyPasswords no
+
+# Change to yes to enable challenge-response passwords (beware issues with
+# some PAM modules and threads)
+ChallengeResponseAuthentication no
+
+UsePAM yes
+X11Forwarding yes
+PrintMotd no
+UseDNS no
+PidFile /var/run/sshd.pid
+Banner none
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+# override default of no subsystems
+Subsystem	sftp	/usr/lib/openssh/sftp-server
