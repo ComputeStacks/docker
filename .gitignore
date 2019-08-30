@@ -3,3 +3,4 @@ sync.sh
 .sync
 Icon?
 .vscode
+build.local.sh

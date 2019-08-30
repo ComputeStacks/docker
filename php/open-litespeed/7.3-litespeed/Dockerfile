@@ -112,6 +112,8 @@ RUN mv /usr/local/lsws /usr/src \
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data
 
+COPY root/lswsctrl.sh /usr/local/bin/lswsctrl
+
 VOLUME ["/var/www", "/usr/local/lsws"]
 
 EXPOSE 80 7080
