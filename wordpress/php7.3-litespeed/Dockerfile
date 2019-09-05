@@ -3,7 +3,7 @@ FROM cmptstks/php:7.3-litespeed
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 
 # https://wordpress.org/download/releases/
-ENV WORDPRESS_VERSION 5.2.2
+ENV WORDPRESS_VERSION 5.2.3
 ENV WORDPRESS_CLI_VERSION 2.3.0
 ENV WORDPRESS_CLI_MD5 71d72726f0341f85d838b98b9c375080
 
