@@ -109,6 +109,7 @@ RUN mv /usr/local/lsws /usr/src \
     && sed -i 's/upload_max_filesize = .*/upload_max_filesize = 250M/g' /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini \
     && sed -i 's/max_input_time = .*/max_input_time = 300/g' /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini \
     && sed -i 's/max_execution_time = .*/max_execution_time = 300/g' /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini \
+    && echo "date.timezone = 'UTC'" >> /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini \
     && echo "post_max_size = 250M" >> /usr/src/lsws/lsphp72/etc/php/7.2/litespeed/php.ini
 
 RUN usermod -u 1001 www-data \

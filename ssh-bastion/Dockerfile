@@ -1,6 +1,6 @@
-FROM debian:stretch
+FROM debian:buster
 
-MAINTAINER ComputeStacks <support@computestacks.com>
+LABEL maintainer="ComputeStacks <support@computestacks.com>"
 
 # - Install packages
 # - Fix default group (1000 does not exist)
@@ -9,6 +9,7 @@ MAINTAINER ComputeStacks <support@computestacks.com>
 RUN set -ex; \
     \
     apt-get update; \
+    apt-get -y upgrade; \
     apt-get install -y \
             zip \
             unzip \
@@ -29,8 +30,8 @@ RUN set -ex; \
             tmux \
             git \
             curl \
-            mysql-client \
-            postgresql-client-9.6 \
+            mariadb-client \
+            postgresql-client \
             php \
             php-curl \
             php-json \
@@ -39,28 +40,18 @@ RUN set -ex; \
             php-mysql \
             php-cli \
             php-pgsql \
-            php-mcrypt \
             php-readline \
             openssl \
             ca-certificates \
             openssh-server \
             gnupg2 \
             make \
-    ;
-
-COPY nodejs.sh /
-RUN bash /nodejs.sh
-
-RUN set -ex; \
-    \
-    apt-get update; \
-    apt-get install -y \
             nodejs \
     ; \
     rm -rf /var/lib/apt/lists/*;
 
 
-RUN sed -i 's/GROUP=1000/GROUP=100/' /etc/default/useradd \
+RUN sed -i 's/GROUP=1000/GROUP=1000/' /etc/default/useradd \
     && mkdir -p /var/run/sshd \
     && rm -f /etc/ssh/ssh_host_*key*
 
@@ -75,6 +66,11 @@ RUN wget https://getcomposer.org/composer.phar -O composer \
     && mv composer /usr/bin/composer \
     && chmod +x /usr/bin/composer \
     && composer self-update
+
+# Install WP CLI
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O wp \
+    && mv wp /usr/bin/ \
+    && chmod +x /usr/bin/wp
 
 COPY sshd_config /etc/ssh/sshd_config
 COPY vimrc /

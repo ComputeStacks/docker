@@ -191,6 +191,13 @@ if [ -d /etc/sftp.d ]; then
     unset f
 fi
 
+# Update WP CLI
+echo "Updating WP CLI..."
+wp cli update > /dev/null
+
+echo "Update PHP Composer..."
+composer self-update > /dev/null
+
 if $startSshd; then
     log "Executing sshd"
     exec /usr/sbin/sshd -D -e
