@@ -15,6 +15,7 @@ RUN set -ex; \
             ca-certificates \
             wget \
             lsb-release \
+            iputils-ping \
     ; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;
