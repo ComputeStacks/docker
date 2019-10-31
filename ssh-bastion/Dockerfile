@@ -46,11 +46,14 @@ RUN set -ex; \
             openssh-server \
             gnupg2 \
             make \
-            nodejs \
     ; \
+    curl -sL https://deb.nodesource.com/setup_12.x | bash -; \
+    apt-get install -y nodejs; \
+    curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -; \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
+    apt-get update && apt-get install yarn; \
     rm -rf /var/lib/apt/lists/*;
-
-
+    
 RUN sed -i 's/GROUP=1000/GROUP=1000/' /etc/default/useradd \
     && mkdir -p /var/run/sshd \
     && rm -f /etc/ssh/ssh_host_*key*
