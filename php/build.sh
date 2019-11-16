@@ -2,8 +2,8 @@
 
 set -e
 
-docker build --no-cache -t cmptstks/php:7.2-litespeed open-litespeed/7.2-litespeed
-docker build --no-cache -t cmptstks/php:7.3-litespeed open-litespeed/7.3-litespeed
+docker build -t cmptstks/php:7.2-litespeed open-litespeed/7.2-litespeed
+docker build -t cmptstks/php:7.3-litespeed open-litespeed/7.3-litespeed
 
 docker tag cmptstks/php:7.3-litespeed cmptstks/php:latest
 

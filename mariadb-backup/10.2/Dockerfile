@@ -1,4 +1,4 @@
-FROM cmptstks/baseimage:ubuntu-full
+FROM cmptstks/baseimage:latest
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 

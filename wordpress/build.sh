@@ -2,7 +2,7 @@
 
 set -e 
 
-docker build --no-cache -t cmptstks/wordpress:php7.3-litespeed php7.3-litespeed/
+docker build -t cmptstks/wordpress:php7.3-litespeed php7.3-litespeed/
 
 docker tag cmptstks/wordpress:php7.3-litespeed cmptstks/wordpress:latest
 

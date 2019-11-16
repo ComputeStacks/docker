@@ -1,7 +1,7 @@
 # Percona: https://www.percona.com/doc/percona-xtrabackup/2.4/xtrabackup_bin/xbk_option_reference.html 
 # BaseImage: https://github.com/phusion/baseimage-docker
 
-FROM cmptstks/baseimage:ubuntu-full
+FROM cmptstks/baseimage:latest
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 

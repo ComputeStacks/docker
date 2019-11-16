@@ -3,9 +3,9 @@ FROM cmptstks/php:7.3-litespeed
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 
 # https://wordpress.org/download/releases/
-ENV WORDPRESS_VERSION 5.2.3
-ENV WORDPRESS_CLI_VERSION 2.3.0
-ENV WORDPRESS_CLI_MD5 71d72726f0341f85d838b98b9c375080
+ENV WORDPRESS_VERSION 5.3
+ENV WORDPRESS_CLI_VERSION 2.4.0
+ENV WORDPRESS_CLI_MD5 dedd5a662b80cda66e9e25d44c23b25c
 
 COPY 10-wordpress.sh /etc/my_init.d/
 COPY root/vhosts /usr/src/lsws/conf/vhosts/
