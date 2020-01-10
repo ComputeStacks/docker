@@ -1,4 +1,4 @@
-FROM dockage/alpine:3.9-openrc
+FROM dockage/alpine:3.10-openrc
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 
@@ -7,7 +7,7 @@ RUN apk update \
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY cron.sh /root/cron.sh
-ADD https://github.com/ComputeStacks/mysql-dumper/releases/download/0.1.0/mysql-dumper /usr/local/bin/
+ADD https://github.com/ComputeStacks/mysql-dumper/releases/download/1.0.0/mysql-dumper /usr/local/bin/
 COPY crond.init /etc/init.d/crond
 
 RUN chmod 755 /usr/local/bin/entrypoint.sh \
