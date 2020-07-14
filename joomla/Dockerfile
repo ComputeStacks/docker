@@ -1,4 +1,4 @@
-FROM joomla:3.8-php7.2-apache
+FROM joomla:php7.4
 
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data \
