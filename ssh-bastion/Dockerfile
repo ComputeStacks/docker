@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:buster-slim
 
 LABEL maintainer="ComputeStacks <support@computestacks.com>"
 
@@ -51,8 +51,10 @@ RUN set -ex; \
     apt-get install -y nodejs; \
     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -; \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
-    apt-get update && apt-get install yarn; \
-    rm -rf /var/lib/apt/lists/*;
+    apt-get update && apt-get install yarn \
+    ; \
+    apt-get clean \
+    && rm -rf /var/lib/apt/lists/*;
     
 RUN sed -i 's/GROUP=1000/GROUP=1000/' /etc/default/useradd \
     && mkdir -p /var/run/sshd \
