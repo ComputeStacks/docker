@@ -2,6 +2,7 @@
 FROM cmptstks/baseimage:latest
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
+ENV LS_VERSION 1.6.9-1+bionic
 
 RUN set -ex; \
     \
@@ -9,7 +10,7 @@ RUN set -ex; \
     apt-get install -y --no-install-recommends \
       autoconf \
       build-essential \
-      wget \      
+      wget \
       dpkg-dev \
       file \
       g++ \
@@ -51,11 +52,11 @@ RUN set -ex; \
       ca-certificates \
       curl \
       xz-utils \
+      rcs \
     ; \
     wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debain_repo.sh | bash \
     ; \
     apt-get install -y --no-install-recommends \
-      openlitespeed \
       lsphp73 \
       lsphp73-common \
       lsphp73-curl \
@@ -69,12 +70,19 @@ RUN set -ex; \
       php-cli \
       php-mysql \
     ; \
-    rm -rf /var/lib/apt/lists/* \
+    mkdir -p /var/www && mkdir /usr/src/default \
     ; \
-    mkdir -p /var/www && mkdir /usr/src/default;
+    cd /usr/src \
+    && wget http://rpms.litespeedtech.com/debian/pool/main/bionic/openlitespeed_${LS_VERSION}_amd64.deb \
+    ; \
+    dpkg -i openlitespeed_${LS_VERSION}_amd64.deb \
+    ; \
+    apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY root/www /usr/src/default/
 COPY root/00-entrypoint.sh /etc/my_init.d/
+COPY root/10-litespeed-upgrade.sh /etc/my_init.d/
 COPY root/50-litespeed.sh /etc/my_init.d/
 COPY root/vhosts /usr/local/lsws/conf/vhosts/
 COPY root/pecl/install_pear.sh /root/
@@ -87,6 +95,7 @@ RUN cd /usr/local/lsws/fcgi-bin/ \
     && ln -s /usr/local/lsws/lsphp73/bin/lsphp lsphp \
     && cd /usr/local/lsws/lsphp73/bin \
     && chmod +x /etc/my_init.d/00-entrypoint.sh \
+    && chmod +x /etc/my_init.d/10-litespeed-upgrade.sh \
     && chmod +x /etc/my_init.d/50-litespeed.sh \
     && wget -O /tmp/go-pear.phar http://pear.php.net/go-pear.phar \
     && chmod +x -R /root/install_*.sh \

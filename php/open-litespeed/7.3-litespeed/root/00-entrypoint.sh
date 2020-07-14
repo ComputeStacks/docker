@@ -22,6 +22,7 @@ fi
 if ! [ "$(ls -A /usr/local/lsws)" ]; then
   echo >&2 "No files found in config volume - copying files..."
   mv /usr/src/lsws/* /usr/local/lsws/
+  chown -R lsadm: /usr/local/lsws/conf/vhosts
   echo >&2 "Complete! Configuration files have been successfully copied to /usr/local/lsws/"
 fi
 
