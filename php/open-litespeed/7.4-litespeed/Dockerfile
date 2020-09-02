@@ -51,24 +51,36 @@ RUN set -ex; \
       ca-certificates \
       curl \
       xz-utils \
-      rcs \
     ; \
     wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debain_repo.sh | bash \
     ; \
     apt-get install -y --no-install-recommends \
       lsphp73 \
       lsphp73-common \
-      lsphp73-curl \
-      lsphp73-dev \
-      lsphp73-imap \
-      lsphp73-intl \
       lsphp73-json \
-      lsphp73-memcached \
       lsphp73-mysql \
-      lsphp73-redis \
+      lsphp73-imap \
+      lsphp73-opcache \
+      lsphp74 \
+      lsphp74-common \
+      lsphp74-curl \
+      lsphp74-dev \
+      lsphp74-imap \
+      lsphp74-intl \
+      lsphp74-ioncube \
+      lsphp74-json \
+      lsphp74-memcached \
+      lsphp74-msgpack \
+      lsphp74-mysql \
+      lsphp74-opcache \
+      lsphp74-pear \
+      lsphp74-pgsql \
+      lsphp74-redis \
+      lsphp74-sqlite3 \
       php-cli \
       php-mysql \
       openlitespeed \
+      rcs \
     ; \
     mkdir -p /var/www && mkdir /usr/src/default \
     ; \
@@ -83,24 +95,22 @@ COPY root/vhosts /usr/local/lsws/conf/vhosts/
 COPY root/pecl/install_pear.sh /root/
 COPY root/pecl/install_mcrypt.sh /root/
 COPY root/pecl/install_imagick.sh /root/
-COPY root/ioncube_loader_lin_7.3.so /usr/local/lsws/lsphp73/lib/php/20180731/
 
 RUN cd /usr/local/lsws/fcgi-bin/ \
     && rm lsphp \
-    && ln -s /usr/local/lsws/lsphp73/bin/lsphp lsphp \
-    && cd /usr/local/lsws/lsphp73/bin \
+    && ln -s /usr/local/lsws/lsphp74/bin/lsphp lsphp \
+    && cd /usr/local/lsws/lsphp74/bin \
     && chmod +x /etc/my_init.d/00-entrypoint.sh \
     && chmod +x /etc/my_init.d/10-litespeed-upgrade.sh \
     && chmod +x /etc/my_init.d/50-litespeed.sh \
     && wget -O /tmp/go-pear.phar http://pear.php.net/go-pear.phar \
     && chmod +x -R /root/install_*.sh \
     && /root/install_pear.sh \
-    && /usr/local/lsws/lsphp73/bin/pecl channel-update pecl.php.net \    
+    && /usr/local/lsws/lsphp74/bin/pecl channel-update pecl.php.net \    
     && /root/install_mcrypt.sh \
-    && echo "extension=mcrypt.so" >> /usr/local/lsws/lsphp73/etc/php/7.3/mods-available/50-mcrypt.ini \
+    && echo "extension=mcrypt.so" >> /usr/local/lsws/lsphp74/etc/php/7.4/mods-available/50-mcrypt.ini \
     && /root/install_imagick.sh \
-    && echo "extension=imagick.so" >> /usr/local/lsws/lsphp73/etc/php/7.3/mods-available/50-imagick.ini \
-    && echo "zend_extension=ioncube_loader_lin_7.3.so" >> /usr/local/lsws/lsphp73/etc/php/7.3/mods-available/ioncube.ini \
+    && echo "extension=imagick.so" >> /usr/local/lsws/lsphp74/etc/php/7.4/mods-available/50-imagick.ini \
     && rm /root/install_*.sh \
     && rm /usr/local/lsws/conf/httpd_config.conf
 
@@ -108,13 +118,13 @@ COPY root/httpd_config.conf /usr/local/lsws/conf/httpd_config.conf
 
 RUN mv /usr/local/lsws /usr/src \
     && chown -R lsadm:lsadm /usr/src/lsws/conf \
-    && echo "max_input_vars = 3000" >> /usr/src/lsws/lsphp73/etc/php/7.3/litespeed/php.ini \
-    && sed -i 's/memory_limit = .*/memory_limit = 192M/g' /usr/src/lsws/lsphp73/etc/php/7.3/litespeed/php.ini \
-    && sed -i 's/upload_max_filesize = .*/upload_max_filesize = 250M/g' /usr/src/lsws/lsphp73/etc/php/7.3/litespeed/php.ini \
-    && sed -i 's/max_input_time = .*/max_input_time = 300/g' /usr/src/lsws/lsphp73/etc/php/7.3/litespeed/php.ini \
-    && sed -i 's/max_execution_time = .*/max_execution_time = 300/g' /usr/src/lsws/lsphp73/etc/php/7.3/litespeed/php.ini \
-    && echo "date.timezone = 'UTC'" >> /usr/src/lsws/lsphp73/etc/php/7.3/litespeed/php.ini \
-    && echo "post_max_size = 250M" >> /usr/src/lsws/lsphp73/etc/php/7.3/litespeed/php.ini
+    && echo "max_input_vars = 3000" >> /usr/src/lsws/lsphp74/etc/php/7.4/litespeed/php.ini \
+    && sed -i 's/memory_limit = .*/memory_limit = 192M/g' /usr/src/lsws/lsphp74/etc/php/7.4/litespeed/php.ini \
+    && sed -i 's/upload_max_filesize = .*/upload_max_filesize = 250M/g' /usr/src/lsws/lsphp74/etc/php/7.4/litespeed/php.ini \
+    && sed -i 's/max_input_time = .*/max_input_time = 300/g' /usr/src/lsws/lsphp74/etc/php/7.4/litespeed/php.ini \
+    && sed -i 's/max_execution_time = .*/max_execution_time = 300/g' /usr/src/lsws/lsphp74/etc/php/7.4/litespeed/php.ini \
+    && echo "date.timezone = 'UTC'" >> /usr/src/lsws/lsphp74/etc/php/7.4/litespeed/php.ini \
+    && echo "post_max_size = 250M" >> /usr/src/lsws/lsphp74/etc/php/7.4/litespeed/php.ini
 
 RUN usermod -u 1001 www-data \
     && groupmod -g 1001 www-data

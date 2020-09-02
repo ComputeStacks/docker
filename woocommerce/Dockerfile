@@ -1,4 +1,4 @@
-FROM cmptstks/wordpress:php7.3-litespeed
+FROM cmptstks/wordpress:php7.4-litespeed
 
 LABEL maintainer="support@computestacks.com"
 

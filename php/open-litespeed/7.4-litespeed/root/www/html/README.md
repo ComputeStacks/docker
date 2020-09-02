@@ -1,4 +1,4 @@
-# PHP 7.4 Open Litespeed Container
+# PHP 7.3 Open Litespeed Container
 
 ## Litespeed Configuration
 All configuration is stored in a separate, persistent, volume under `/usr/local/lsws`. To modify this, either mount the volume and edit the files directly, or use the built-in OpenLiteSpeed administrator located here: `https://<container-service>:7080`.
