@@ -4,10 +4,7 @@ set -euo pipefail
 wait_for_db() {
   counter=0
   echo >&2 "Connecting to database at $DB_HOST"
-  if [ -z "$DB_PORT" ]; then
-    $DB_PORT=3306
-  fi
-  while ! mysql -h $DB_HOST -P $DB_PORT -u $DB_USER -p$DB_PASSWORD -e "USE mysql;" >/dev/null; do
+  while ! mysql -h $DB_HOST -P ${DB_PORT:-3306} -u $DB_USER -p$DB_PASSWORD -e "USE mysql;" >/dev/null; do
     counter=$((counter+1))
     if [ $counter == 30 ]; then
       echo >&2 "Error: Couldn't connect to database."
@@ -20,10 +17,7 @@ wait_for_db() {
 
 setup_db() {
   echo >&2 "Creating the database..."
-  if [ -z "$DB_PORT" ]; then
-    $DB_PORT=3306
-  fi
-  mysql -h $DB_HOST -P $DB_PORT -u $DB_USER -p$DB_PASSWORD --skip-column-names -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+  mysql -h $DB_HOST -P ${DB_PORT:-3306} -u $DB_USER -p$DB_PASSWORD --skip-column-names -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 }
 
 if [ ! -d /var/www/html/whmcs ]; then
