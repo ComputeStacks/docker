@@ -46,6 +46,7 @@ RUN set -ex; \
             openssh-server \
             gnupg2 \
             make \
+            iputils-ping \
     ; \
     curl -sL https://deb.nodesource.com/setup_12.x | bash -; \
     apt-get install -y nodejs; \
