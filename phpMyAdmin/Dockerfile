@@ -2,8 +2,8 @@ FROM cmptstks/php:7.3-apache
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 
-ENV PMA_VERSION 5.0.2
-ENV PMA_HASH a6ea4f16ced9f2ce3a9b23d47c1cd0fee5a46ead9bd5f9ec76f8edfb7a153edc
+ENV PMA_VERSION 5.0.4
+ENV PMA_HASH 830bbca930d5e417ae4249931838e2c70ca0365044268fa0ede75e33aff677de
 
 RUN wget -O /usr/src/phpmyadmin.zip https://files.phpmyadmin.net/phpMyAdmin/${PMA_VERSION}/phpMyAdmin-${PMA_VERSION}-all-languages.zip
 

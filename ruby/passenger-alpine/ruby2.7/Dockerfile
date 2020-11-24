@@ -2,7 +2,7 @@ FROM ruby:2.7-alpine
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 
-ENV PASSENGER_VERSION 6.0.6
+ENV PASSENGER_VERSION 6.0.7
 
 RUN set -eux; \
         \
