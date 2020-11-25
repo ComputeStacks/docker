@@ -61,6 +61,7 @@ RUN set -ex; \
       lsphp73-curl \
       lsphp73-dev \
       lsphp73-imap \
+      lsphp73-imagick \
       lsphp73-intl \
       lsphp73-json \
       lsphp73-memcached \
@@ -82,7 +83,6 @@ COPY root/50-litespeed.sh /etc/my_init.d/
 COPY root/vhosts /usr/local/lsws/conf/vhosts/
 COPY root/pecl/install_pear.sh /root/
 COPY root/pecl/install_mcrypt.sh /root/
-COPY root/pecl/install_imagick.sh /root/
 COPY root/ioncube_loader_lin_7.3.so /usr/local/lsws/lsphp73/lib/php/20180731/
 
 RUN cd /usr/local/lsws/fcgi-bin/ \
@@ -98,8 +98,6 @@ RUN cd /usr/local/lsws/fcgi-bin/ \
     && /usr/local/lsws/lsphp73/bin/pecl channel-update pecl.php.net \    
     && /root/install_mcrypt.sh \
     && echo "extension=mcrypt.so" >> /usr/local/lsws/lsphp73/etc/php/7.3/mods-available/50-mcrypt.ini \
-    && /root/install_imagick.sh \
-    && echo "extension=imagick.so" >> /usr/local/lsws/lsphp73/etc/php/7.3/mods-available/50-imagick.ini \
     && echo "zend_extension=ioncube_loader_lin_7.3.so" >> /usr/local/lsws/lsphp73/etc/php/7.3/mods-available/ioncube.ini \
     && rm /root/install_*.sh \
     && rm /usr/local/lsws/conf/httpd_config.conf

@@ -66,6 +66,7 @@ RUN set -ex; \
       lsphp74-curl \
       lsphp74-dev \
       lsphp74-imap \
+      lsphp74-imagick \
       lsphp74-intl \
       lsphp74-ioncube \
       lsphp74-json \
@@ -94,7 +95,6 @@ COPY root/50-litespeed.sh /etc/my_init.d/
 COPY root/vhosts /usr/local/lsws/conf/vhosts/
 COPY root/pecl/install_pear.sh /root/
 COPY root/pecl/install_mcrypt.sh /root/
-COPY root/pecl/install_imagick.sh /root/
 
 RUN cd /usr/local/lsws/fcgi-bin/ \
     && rm lsphp \
@@ -109,8 +109,6 @@ RUN cd /usr/local/lsws/fcgi-bin/ \
     && /usr/local/lsws/lsphp74/bin/pecl channel-update pecl.php.net \    
     && /root/install_mcrypt.sh \
     && echo "extension=mcrypt.so" >> /usr/local/lsws/lsphp74/etc/php/7.4/mods-available/50-mcrypt.ini \
-    && /root/install_imagick.sh \
-    && echo "extension=imagick.so" >> /usr/local/lsws/lsphp74/etc/php/7.4/mods-available/50-imagick.ini \
     && rm /root/install_*.sh \
     && rm /usr/local/lsws/conf/httpd_config.conf
 
