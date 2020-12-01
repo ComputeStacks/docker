@@ -31,7 +31,6 @@ RUN set -ex; \
             git \
             curl \
             mariadb-client \
-            postgresql-client \
             php \
             php-curl \
             php-json \
@@ -52,7 +51,13 @@ RUN set -ex; \
     apt-get install -y nodejs; \
     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -; \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list; \
-    apt-get update && apt-get install yarn \
+    apt-get update && apt-get install yarn \    
+    ; \
+    sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
+    ; \
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    ; \
+    apt-get update && apt-get -y install postgresql-client-13 \
     ; \
     apt-get clean \
     && rm -rf /var/lib/apt/lists/*;
