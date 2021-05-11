@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:focal-1.0.0
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 

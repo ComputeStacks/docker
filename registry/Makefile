@@ -6,7 +6,7 @@ help: ## Help
 .DEFAULT_GOAL := help
 
 build: ## Build all versions
-	docker build --no-cache -t cmptstks/registry:latest .
+	@docker build --no-cache -t cmptstks/registry:latest .
 
 push: ## Tag latest and push to DockerHub
-	docker push cmptstks/registry:latest
+	@docker push cmptstks/registry:latest

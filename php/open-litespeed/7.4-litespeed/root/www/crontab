@@ -1,1 +1,2 @@
 # Place your cron jobs here.
+# */5 * * * * www-data /usr/local/lsws/lsphp74/bin/php /var/www/html/cron.php 2>&1 | logger -t myapp -p cron.err

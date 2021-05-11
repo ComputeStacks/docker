@@ -1,4 +1,4 @@
-# Local dev: docker run --rm -it -e LS_ADMIN_PW=changeme -p 3000:80 -p 7080:7080 cmptstks/php:7.3-litespeed /sbin/my_init -- bash -l  
+# Local dev: docker run --rm -it -e LS_ADMIN_PW=changeme -p 3000:80 -p 7080:7080 cmptstks/php:7.4-litespeed /sbin/my_init -- bash -l  
 FROM cmptstks/baseimage:latest
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"

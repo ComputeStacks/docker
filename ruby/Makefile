@@ -6,11 +6,9 @@ help: ## Help
 .DEFAULT_GOAL := help
 
 build: ## Build all versions
-	docker build --no-cache -t cmptstks/alpine-passenger:ruby2.6 passenger-alpine/ruby2.6
 	docker build --no-cache -t cmptstks/alpine-passenger:ruby2.7 passenger-alpine/ruby2.7
 
 push: ## Tag latest and push to DockerHub
 	docker tag cmptstks/alpine-passenger:ruby2.7 cmptstks/alpine-passenger:latest
-	docker push cmptstks/alpine-passenger:ruby2.6
 	docker push cmptstks/alpine-passenger:ruby2.7
 	docker push cmptstks/alpine-passenger:latest

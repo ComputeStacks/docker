@@ -6,9 +6,7 @@ help: ## Help
 .DEFAULT_GOAL := help
 
 build: ## Build all versions
-	@docker build --no-cache -t cmptstks/woocommerce:php7.4-litespeed .
+	@docker build --no-cache -t cmptstks/phpmyadmin:litespeed litespeed/
 
 push: ## Tag latest and push to DockerHub
-	@docker tag cmptstks/woocommerce:php7.4-litespeed cmptstks/woocommerce:latest
-	@docker push cmptstks/woocommerce:php7.4-litespeed
-	@docker push cmptstks/woocommerce:latest
+	@docker push cmptstks/phpmyadmin:litespeed

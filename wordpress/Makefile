@@ -6,11 +6,11 @@ help: ## Help
 .DEFAULT_GOAL := help
 
 build: ## Build all versions
-	docker build --no-cache -t cmptstks/wordpress:php7.3-litespeed php7.3-litespeed
-	docker build --no-cache -t cmptstks/wordpress:php7.4-litespeed php7.4-litespeed
+	@docker build --no-cache -t cmptstks/wordpress:php7.3-litespeed php7.3-litespeed
+	@docker build --no-cache -t cmptstks/wordpress:php7.4-litespeed php7.4-litespeed
 
 push: ## Tag latest and push to DockerHub
-	docker tag cmptstks/wordpress:php7.4-litespeed cmptstks/wordpress:latest
-	docker push cmptstks/wordpress:php7.3-litespeed
-	docker push cmptstks/wordpress:php7.4-litespeed
-	docker push cmptstks/wordpress:latest
+	@docker tag cmptstks/wordpress:php7.4-litespeed cmptstks/wordpress:latest
+	@docker push cmptstks/wordpress:php7.3-litespeed
+	@docker push cmptstks/wordpress:php7.4-litespeed
+	@docker push cmptstks/wordpress:latest

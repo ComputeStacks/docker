@@ -3,9 +3,9 @@ FROM cmptstks/php:7.4-litespeed
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 
-ENV WHMCS_VERSION 804
+ENV WHMCS_VERSION 813
 # shasum -a 256 <filepath>
-ENV WHMCS_HASH "701139d66fcb8cb5e9dc01b9fed1feb48997173cde5fb3f72b79756887cab292"
+ENV WHMCS_HASH "4dece8276a41b6189853e5198f4c97053fc289409871454d259630287a9c8635"
 
 COPY 05-whmcs.sh /etc/my_init.d/
 COPY root/vhosts /usr/src/lsws/conf/vhosts/

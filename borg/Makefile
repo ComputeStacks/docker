@@ -6,9 +6,8 @@ help: ## Help
 .DEFAULT_GOAL := help
 
 build: ## Build all versions
-	@docker build --no-cache -t cmptstks/woocommerce:php7.4-litespeed .
+	@docker build --no-cache -t cmptstks/borg:stable .
 
 push: ## Tag latest and push to DockerHub
-	@docker tag cmptstks/woocommerce:php7.4-litespeed cmptstks/woocommerce:latest
-	@docker push cmptstks/woocommerce:php7.4-litespeed
-	@docker push cmptstks/woocommerce:latest
+	@docker tag cmptstks/borg:stable cmptstks/borg:latest
+	@docker push cmptstks/borg:latest
