@@ -7,7 +7,7 @@ RUN wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_
     && percona-release enable-only tools
 
 RUN export DEBIAN_FRONTEND=noninteractive \
-    && wget -O mysqlconfig.deb https://dev.mysql.com/get/mysql-apt-config_0.8.13-1_all.deb \
+    && wget -O mysqlconfig.deb https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb \
     && echo mysql-apt-config mysql-apt-config/select-server select mysql-8.0 | debconf-set-selections \
     && dpkg -i mysqlconfig.deb
 
