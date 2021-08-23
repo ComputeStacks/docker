@@ -3,9 +3,9 @@ FROM cmptstks/php:7.4-litespeed
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 
-ENV WHMCS_VERSION 813
+ENV WHMCS_VERSION 821
 # shasum -a 256 <filepath>
-ENV WHMCS_HASH "4dece8276a41b6189853e5198f4c97053fc289409871454d259630287a9c8635"
+ENV WHMCS_HASH "80c151a08390f540b69a874cd8d8b9d9689eef88b1dc39e25fb1000b096fb9b7"
 
 COPY 05-whmcs.sh /etc/my_init.d/
 COPY root/vhosts /usr/src/lsws/conf/vhosts/
@@ -21,6 +21,7 @@ RUN set -ex; \
       && echo "#*/5 * * * * www-data /usr/local/lsws/lsphp74/bin/php -q /var/www/html/whmcs/whmcs-public/crons/cron.php" >> /usr/src/default/crontab \
       && mkdir /usr/src/whmcs/whmcs-updates \
       && mkdir /usr/src/whmcs/whmcs-private \
+      && mkdir /usr/src/whmcs/log \
       && chmod +x /etc/my_init.d/05-whmcs.sh \
     ; \
     sed -i 's/  map                     Default/  map                     WHMCS/g' /usr/src/lsws/conf/httpd_config.conf; \
