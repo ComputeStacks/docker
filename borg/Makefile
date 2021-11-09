@@ -10,4 +10,5 @@ build: ## Build all versions
 
 push: ## Tag latest and push to DockerHub
 	@docker tag cmptstks/borg:stable cmptstks/borg:latest
+	@docker push cmptstks/borg:stable
 	@docker push cmptstks/borg:latest

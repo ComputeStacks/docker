@@ -3,9 +3,9 @@ FROM cmptstks/php:7.4-litespeed
 
 LABEL maintainer="ComputeStacks <hello@computestacks.com>"
 
-ENV WHMCS_VERSION 821
+ENV WHMCS_VERSION 830
 # shasum -a 256 <filepath>
-ENV WHMCS_HASH "80c151a08390f540b69a874cd8d8b9d9689eef88b1dc39e25fb1000b096fb9b7"
+ENV WHMCS_HASH "995c480bf1d192fcb35d5e8d2cb5afa5856b3b21b2abf303b296c73a55087978"
 
 COPY 05-whmcs.sh /etc/my_init.d/
 COPY root/vhosts /usr/src/lsws/conf/vhosts/
@@ -19,6 +19,7 @@ RUN set -ex; \
       && mkdir /usr/src/whmcs \  
       && mv /usr/src/whmcs-public /usr/src/whmcs/ \
       && echo "#*/5 * * * * www-data /usr/local/lsws/lsphp74/bin/php -q /var/www/html/whmcs/whmcs-public/crons/cron.php" >> /usr/src/default/crontab \
+      && echo "#*/5 * * * * www-data /usr/local/lsws/lsphp74/bin/php -q /var/www/html/whmcs/whmcs-public/crons/cron.php do --TicketEscalations" >> /usr/src/default/crontab \
       && mkdir /usr/src/whmcs/whmcs-updates \
       && mkdir /usr/src/whmcs/whmcs-private \
       && mkdir /usr/src/whmcs/log \
